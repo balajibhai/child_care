@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/App.tsx
+import React from "react";
+import { AppBar, Toolbar, IconButton } from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Text from "./components/Text";
+import Icons from "./components/Icons";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* Header Section */}
+      <AppBar position="static">
+        <Toolbar>
+          {/* Left: Hamburger Icon */}
+          <Icons
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            icon="MenuIcon"
+          />
+
+          {/* Title */}
+          <Text
+            variant="h6"
+            sx={{ flexGrow: 1 }}
+            content="Child Care"
+            component="Typography"
+          />
+
+          {/* Right: Account Icon */}
+          <IconButton edge="end" color="inherit">
+            <AccountCircleIcon />
+          </IconButton>
+          {/* <Icons edge="end" color="inherit" icon="AccountCircleIcon" /> */}
+        </Toolbar>
+      </AppBar>
     </div>
   );
-}
+};
 
 export default App;
