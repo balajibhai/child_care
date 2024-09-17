@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Drawer, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Text from "./Text";
 
 interface iconProps {
@@ -16,10 +17,40 @@ interface iconProps {
     | "warning";
   ariaLabel?: string | undefined;
   sx?: object;
-  icon: string;
+  icon: keyof typeof ICON_MAP;
+  toggleDrawer?: (
+    open: boolean
+  ) => (event: React.KeyboardEvent | React.MouseEvent) => void | undefined;
 }
 
+const ICON_MAP = {
+  Menu: MenuIcon,
+  Account: AccountCircleIcon,
+};
+
 // const styledIconButton = styled(IconButton)(({ theme }) => ({}));
+
+const HandleIcons = ({
+  edge,
+  color,
+  ariaLabel,
+  sx,
+  icon,
+  toggleDrawer,
+}: iconProps) => {
+  const Component = ICON_MAP[icon];
+  return (
+    <IconButton
+      edge={edge}
+      color={color}
+      aria-label={ariaLabel}
+      onClick={toggleDrawer && toggleDrawer(true)}
+      sx={sx}
+    >
+      <Component />
+    </IconButton>
+  );
+};
 
 const Icons = ({ edge, color, ariaLabel, sx, icon }: iconProps) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -38,16 +69,15 @@ const Icons = ({ edge, color, ariaLabel, sx, icon }: iconProps) => {
 
   return (
     <div>
-      <IconButton
+      {/* Side Drawer */}
+      <HandleIcons
         edge={edge}
         color={color}
-        aria-label={ariaLabel}
-        onClick={toggleDrawer(true)}
+        ariaLabel={ariaLabel}
         sx={sx}
-      >
-        <MenuIcon />
-      </IconButton>
-      {/* Side Drawer */}
+        icon={icon}
+        toggleDrawer={toggleDrawer}
+      />
       <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250 }}
