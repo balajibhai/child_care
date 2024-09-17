@@ -28,8 +28,6 @@ const ICON_MAP = {
   Account: AccountCircleIcon,
 };
 
-// const styledIconButton = styled(IconButton)(({ theme }) => ({}));
-
 const HandleIcons = ({
   edge,
   color,
@@ -39,12 +37,17 @@ const HandleIcons = ({
   toggleDrawer,
 }: iconProps) => {
   const Component = ICON_MAP[icon];
+  const handleClick = () => {
+    if (icon === "Menu") {
+      return toggleDrawer && toggleDrawer(true);
+    }
+  };
   return (
     <IconButton
       edge={edge}
       color={color}
       aria-label={ariaLabel}
-      onClick={toggleDrawer && toggleDrawer(true)}
+      onClick={handleClick()}
       sx={sx}
     >
       <Component />

@@ -26,11 +26,6 @@ const App: React.FC = () => {
             content="Child Care"
             component="Typography"
           />
-
-          {/* Right: Account Icon */}
-          {/* <IconButton edge="end" color="inherit">
-            <AccountCircleIcon />
-          </IconButton> */}
           <Icons edge="end" color="inherit" icon="Account" />
         </Toolbar>
       </AppBar>
