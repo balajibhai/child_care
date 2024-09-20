@@ -3,6 +3,7 @@ import React from "react";
 import { AppBar, Toolbar } from "@mui/material";
 import Text from "./components/Text";
 import Icons from "./components/Icons";
+import Uploadfeature from "./Uploadfeature";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           <Icons edge="end" color="inherit" icon="Account" />
         </Toolbar>
       </AppBar>
+      <Uploadfeature />
     </div>
   );
 };
