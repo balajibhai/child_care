@@ -10,6 +10,7 @@ interface MediaItem {
 const Uploadfeature: React.FC = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const [comments, setComments] = useState<{ [key: string]: string }>({});
+  const [displayText, setDisplaytext] = useState<{ [key: string]: string }>({});
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
 
   const handleUpload = (
@@ -68,6 +69,13 @@ const Uploadfeature: React.FC = () => {
     };
   }, [mediaList]);
 
+  const handleSendClick = (id: string) => {
+    setDisplaytext((prev) => ({
+      ...prev,
+      [id]: comments[id],
+    }));
+  };
+
   return (
     <div className="App">
       <h1>Media Uploader</h1>
@@ -113,18 +121,21 @@ const Uploadfeature: React.FC = () => {
               />
             )}
             {comments[media.id] !== undefined && (
-              <div className="comment-box">
-                <textarea
-                  value={comments[media.id]}
-                  onChange={(e) =>
-                    handleCommentChange(media.id, e.target.value)
-                  }
-                  placeholder="Add a comment..."
-                ></textarea>
-              </div>
+              <>
+                <div className="comment-box">
+                  <textarea
+                    value={comments[media.id]}
+                    onChange={(e) =>
+                      handleCommentChange(media.id, e.target.value)
+                    }
+                    placeholder="Add a comment..."
+                  ></textarea>
+                </div>
+                <button onClick={() => handleSendClick(media.id)}>Send</button>
+              </>
             )}
-            {comments[media.id] && (
-              <p className="comment-display">{comments[media.id]}</p>
+            {displayText[media.id] && (
+              <p className="comment-display">{displayText[media.id]}</p>
             )}
           </div>
         ))}
