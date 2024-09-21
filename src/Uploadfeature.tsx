@@ -11,7 +11,10 @@ const Uploadfeature: React.FC = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const [comments, setComments] = useState<{ [key: string]: string }>({});
   const [displayText, setDisplaytext] = useState<{ [key: string]: string }>({});
+  const [loadedMediaCount, setLoadedMediaCount] = useState(0);
+  const [newMediaCount, setNewMediaCount] = useState(0);
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
+  const mediaListRef = useRef<HTMLDivElement>(null);
 
   const handleUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -25,6 +28,8 @@ const Uploadfeature: React.FC = () => {
         type: type,
       } as MediaItem;
     });
+    setNewMediaCount(newMedia.length);
+    setLoadedMediaCount(0);
     setMediaList((prev) => [...prev, ...newMedia]);
   };
 
@@ -33,6 +38,26 @@ const Uploadfeature: React.FC = () => {
       ...prev,
       [id]: comment,
     }));
+  };
+
+  const handleSendClick = (id: string) => {
+    setDisplaytext((prev) => ({
+      ...prev,
+      [id]: comments[id],
+    }));
+  };
+
+  const handleMediaLoad = () => {
+    setLoadedMediaCount((prev) => {
+      const newCount = prev + 1;
+      if (newCount === newMediaCount) {
+        // All new media items have loaded
+        if (mediaListRef.current) {
+          mediaListRef.current.scrollTop = mediaListRef.current.scrollHeight;
+        }
+      }
+      return newCount;
+    });
   };
 
   useEffect(() => {
@@ -61,51 +86,30 @@ const Uploadfeature: React.FC = () => {
         }
       }
     });
+
+    // Cleanup only on unmount
     return () => {
       // Clean up observers on unmount
-      Object.values(observers.current).forEach((observer) =>
-        observer.disconnect()
-      );
+      if (mediaList.length === 0) {
+        Object.values(observers.current).forEach((observer) =>
+          observer.disconnect()
+        );
+        observers.current = {};
+      }
     };
   }, [mediaList]);
-
-  const handleSendClick = (id: string) => {
-    setDisplaytext((prev) => ({
-      ...prev,
-      [id]: comments[id],
-    }));
-  };
 
   return (
     <div className="App">
       <h1>Media Uploader</h1>
-      <div className="upload-buttons">
-        <label>
-          Upload Photo
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => handleUpload(e, "image")}
-          />
-        </label>
-        <label>
-          Upload Video
-          <input
-            type="file"
-            accept="video/*"
-            multiple
-            onChange={(e) => handleUpload(e, "video")}
-          />
-        </label>
-      </div>
-      <div className="media-list">
-        {mediaList.map((media) => (
+      <div className="media-list" ref={mediaListRef}>
+        {mediaList.map((media, index) => (
           <div key={media.id} className="media-item">
             {media.type === "image" ? (
               <img
                 src={media.id}
                 alt=""
+                onLoad={handleMediaLoad}
                 onClick={() =>
                   handleCommentChange(media.id, comments[media.id] || "")
                 }
@@ -115,6 +119,7 @@ const Uploadfeature: React.FC = () => {
                 id={media.id}
                 src={media.id}
                 controls
+                onLoadedData={handleMediaLoad}
                 onClick={() =>
                   handleCommentChange(media.id, comments[media.id] || "")
                 }
@@ -139,6 +144,26 @@ const Uploadfeature: React.FC = () => {
             )}
           </div>
         ))}
+      </div>
+      <div className="upload-buttons">
+        <label>
+          Upload Photo
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => handleUpload(e, "image")}
+          />
+        </label>
+        <label>
+          Upload Video
+          <input
+            type="file"
+            accept="video/*"
+            multiple
+            onChange={(e) => handleUpload(e, "video")}
+          />
+        </label>
       </div>
     </div>
   );
