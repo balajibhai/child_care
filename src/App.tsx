@@ -2,7 +2,7 @@
 import React from "react";
 import { AppBar, Toolbar } from "@mui/material";
 import Text from "./components/Text";
-import Icons from "./components/Icons";
+import Icons from "./components/Atoms/Icons";
 import Uploadfeature from "./Uploadfeature";
 
 const App: React.FC = () => {

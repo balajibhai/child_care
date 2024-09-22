@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Drawer, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Text from "./Text";
+import Text from "../Text";
 
 interface iconProps {
   edge: false | "start" | "end" | undefined;
