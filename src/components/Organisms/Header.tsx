@@ -2,7 +2,7 @@ import { AppBar, Toolbar } from "@mui/material";
 import Icons from "../Atoms/Icons";
 import Text from "../Text";
 import { useState } from "react";
-import DrawerComponent from "../Molecules/Drawer";
+import DrawerComponent from "../Molecules/DrawerComponent";
 
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);

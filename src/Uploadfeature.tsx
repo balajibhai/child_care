@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../src/css/Uploadfeature.css";
+import Text from "./components/Text";
+import UploadButtons from "./components/Molecules/UploadButtons";
 
 interface MediaItem {
   id: string;
@@ -101,7 +103,7 @@ const Uploadfeature: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Media Uploader</h1>
+      <Text variant="h4" content="Media Uploader" component="Typography" />
       <div className="media-list" ref={mediaListRef}>
         {mediaList.map((media, index) => (
           <div key={media.id} className="media-item">
@@ -145,26 +147,7 @@ const Uploadfeature: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="upload-buttons">
-        <label>
-          Upload Photo
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => handleUpload(e, "image")}
-          />
-        </label>
-        <label>
-          Upload Video
-          <input
-            type="file"
-            accept="video/*"
-            multiple
-            onChange={(e) => handleUpload(e, "video")}
-          />
-        </label>
-      </div>
+      <UploadButtons handleUpload={handleUpload} />
     </div>
   );
 };
