@@ -1,5 +1,5 @@
 import Header from "../Organisms/Header";
-import Uploadfeature from "../../Uploadfeature";
+import Uploadfeature from "../Organisms/Uploadfeature";
 
 const Home = () => {
   return (
