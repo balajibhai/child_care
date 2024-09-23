@@ -2,26 +2,19 @@ import { Box, Drawer } from "@mui/material";
 import Text from "../Text";
 
 interface DrawerComponentProps {
-  isDrawerOpen: boolean;
-  toggleDrawer?: (
-    open: boolean
-  ) => (event: React.KeyboardEvent | React.MouseEvent) => void | undefined;
+  isOpen: boolean;
+  onClose?: () => void;
 }
 
-const DrawerComponent = ({
-  isDrawerOpen,
-  toggleDrawer,
-}: DrawerComponentProps) => {
-  const toggleFunc = toggleDrawer && toggleDrawer(!isDrawerOpen);
-
+const DrawerComponent = ({ isOpen, onClose }: DrawerComponentProps) => {
   return (
     <div>
-      <Drawer anchor="left" open={isDrawerOpen} onClose={toggleFunc}>
+      <Drawer anchor="left" open={isOpen} onClose={onClose}>
         <Box
           sx={{ width: 250 }}
           role="presentation"
-          onClick={toggleFunc}
-          onKeyDown={toggleFunc}
+          onClick={onClose}
+          onKeyDown={onClose}
         >
           <Text
             variant="h6"

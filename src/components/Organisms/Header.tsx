@@ -6,17 +6,12 @@ import DrawerComponent from "../Molecules/DrawerComponent";
 
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const toggleDrawer =
-    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-      setDrawerOpen(open);
-    };
+  const toggleDrawer = () => {
+    setDrawerOpen(!isDrawerOpen);
+  };
+  const onDrawerClose = () => {
+    setDrawerOpen(false);
+  };
   return (
     <div>
       <AppBar position="static">
@@ -27,8 +22,7 @@ const Header = () => {
             color="inherit"
             sx={{ mr: 2 }}
             icon="Menu"
-            toggleDrawer={toggleDrawer}
-            isDrawerOpen={isDrawerOpen}
+            onClick={toggleDrawer}
           />
           {/* Title */}
           <Text
@@ -39,10 +33,7 @@ const Header = () => {
           />
           <Icons edge="end" color="inherit" icon="Account" />
         </Toolbar>
-        <DrawerComponent
-          isDrawerOpen={isDrawerOpen}
-          toggleDrawer={toggleDrawer}
-        />
+        <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
       </AppBar>
     </div>
   );

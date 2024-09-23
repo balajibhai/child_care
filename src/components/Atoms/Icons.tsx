@@ -16,10 +16,7 @@ interface iconProps {
     | "warning";
   sx?: object;
   icon: keyof typeof ICON_MAP;
-  toggleDrawer?: (
-    open: boolean
-  ) => (event: React.KeyboardEvent | React.MouseEvent) => void | undefined;
-  isDrawerOpen?: boolean;
+  onClick?: () => void;
 }
 
 const ICON_MAP = {
@@ -27,19 +24,10 @@ const ICON_MAP = {
   Account: AccountCircleIcon,
 };
 
-const Icons = ({
-  edge,
-  color,
-  sx,
-  icon,
-  toggleDrawer,
-  isDrawerOpen,
-}: iconProps) => {
+const Icons = ({ edge, color, sx, icon, onClick }: iconProps) => {
   const Component = ICON_MAP[icon];
   const handleClick = (event: React.MouseEvent) => {
-    if (icon === "Menu") {
-      return toggleDrawer && toggleDrawer(!isDrawerOpen)(event);
-    }
+    onClick && onClick();
   };
   return (
     <IconButton edge={edge} color={color} onClick={handleClick} sx={sx}>
