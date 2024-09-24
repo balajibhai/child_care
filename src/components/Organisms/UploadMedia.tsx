@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "../../css/Uploadfeature.css";
 import Text from "../Atoms/Text";
 import UploadButtons from "../Molecules/UploadButtons";
 import MediaUploader from "../Molecules/MediaUploader";
@@ -48,7 +47,7 @@ const Uploadfeature: React.FC = () => {
               });
             },
             {
-              threshold: 0.75,
+              threshold: 0.75, // play if the video is upto a particular view of 70%
             }
           );
           observer.observe(videoElement);
