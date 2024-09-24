@@ -4,9 +4,9 @@ import Home from "./components/Templates/Home";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <>
       <Home />
-    </div>
+    </>
   );
 };
 

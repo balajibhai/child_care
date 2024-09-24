@@ -12,9 +12,9 @@ const CommentDisplayStyle = styled(Box)(({ theme }) => ({
 
 const CommentDisplay = ({ displayText }: CommentDisplayProps) => {
   return (
-    <div>
+    <>
       <CommentDisplayStyle>{displayText}</CommentDisplayStyle>
-    </div>
+    </>
   );
 };
 

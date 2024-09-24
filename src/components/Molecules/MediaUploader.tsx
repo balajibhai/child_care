@@ -50,6 +50,7 @@ const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
           src={media.id}
           onLoadedData={handleMediaLoad}
           onClick={() => handleMediaClick(media.id)}
+          controls={true}
         />
       )}
 

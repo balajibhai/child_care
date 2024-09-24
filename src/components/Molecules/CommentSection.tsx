@@ -35,7 +35,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
     }));
   };
   return (
-    <div>
+    <>
       <CommentBox>
         <Textarea
           value={comments[mediaId]}
@@ -49,7 +49,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
       {displayText[mediaId] && (
         <CommentDisplay displayText={displayText[mediaId]} />
       )}
-    </div>
+    </>
   );
 };
 

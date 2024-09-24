@@ -18,18 +18,14 @@ interface textProps {
     | "overline";
   content: string;
   sx?: object;
-  component?: string;
 }
 
-const Text = ({ variant, content, sx, component }: textProps) => {
-  if (component === "Typography") {
-    return (
-      <Typography variant={variant} sx={sx}>
-        {content}
-      </Typography>
-    );
-  }
-  return null;
+const Text = ({ variant, content, sx }: textProps) => {
+  return (
+    <Typography variant={variant} sx={sx}>
+      {content}
+    </Typography>
+  );
 };
 
 export default Text;

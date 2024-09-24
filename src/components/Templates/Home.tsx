@@ -3,10 +3,10 @@ import Uploadfeature from "../Organisms/Uploadfeature";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Header />
       <Uploadfeature />
-    </div>
+    </>
   );
 };
 

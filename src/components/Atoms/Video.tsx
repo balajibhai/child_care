@@ -3,19 +3,20 @@ interface ImageProps {
   src: string;
   onLoadedData: () => void;
   onClick: () => void;
+  controls: boolean;
 }
 
-const Video = ({ id, src, onLoadedData, onClick }: ImageProps) => {
+const Video = ({ id, src, onLoadedData, onClick, controls }: ImageProps) => {
   return (
-    <div>
+    <>
       <video
         id={id}
         src={src}
-        controls
+        controls={controls}
         onLoadedData={onLoadedData}
         onClick={onClick}
       />
-    </div>
+    </>
   );
 };
 

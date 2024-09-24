@@ -11,7 +11,7 @@ interface UploadButtonsProps {
 
 const UploadButtons = ({ handleUpload }: UploadButtonsProps) => {
   return (
-    <div>
+    <>
       <UploadButton
         accept="image/*"
         multiple={true}
@@ -24,7 +24,7 @@ const UploadButtons = ({ handleUpload }: UploadButtonsProps) => {
         onChange={(e) => handleUpload(e, "video")}
         label="Upload Video"
       />
-    </div>
+    </>
   );
 };
 

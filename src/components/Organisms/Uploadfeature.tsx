@@ -100,7 +100,7 @@ const Uploadfeature: React.FC = () => {
 
   return (
     <AppContainer>
-      <Text variant="h4" content="Media Uploader" component="Typography" />
+      <Text variant="h4" content="Media Uploader" />
       <MediaList ref={mediaListRef}>
         {mediaList.map((media) => (
           <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />

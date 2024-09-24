@@ -8,7 +8,7 @@ interface DrawerComponentProps {
 
 const DrawerComponent = ({ isOpen, onClose }: DrawerComponentProps) => {
   return (
-    <div>
+    <>
       <Drawer anchor="left" open={isOpen} onClose={onClose}>
         <Box
           sx={{ width: 250 }}
@@ -16,17 +16,12 @@ const DrawerComponent = ({ isOpen, onClose }: DrawerComponentProps) => {
           onClick={onClose}
           onKeyDown={onClose}
         >
-          <Text
-            variant="h6"
-            sx={{ p: 2 }}
-            content="Side Pane"
-            component="Typography"
-          />
-          <Text sx={{ p: 2 }} content="Menu Item 1" component="Typography" />
-          <Text sx={{ p: 2 }} content="Menu Item 2" component="Typography" />
+          <Text variant="h6" sx={{ p: 2 }} content="Side Pane" />
+          <Text sx={{ p: 2 }} content="Menu Item 1" />
+          <Text sx={{ p: 2 }} content="Menu Item 2" />
         </Box>
       </Drawer>
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 interface iconProps {
-  edge: false | "start" | "end" | undefined;
+  edge?: "start" | "end" | undefined;
   color:
     | "inherit"
     | "default"

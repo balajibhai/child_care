@@ -13,7 +13,7 @@ const Header = () => {
     setDrawerOpen(false);
   };
   return (
-    <div>
+    <>
       <AppBar position="static">
         <Toolbar>
           {/* Left: Hamburger Icon */}
@@ -25,17 +25,12 @@ const Header = () => {
             onClick={toggleDrawer}
           />
           {/* Title */}
-          <Text
-            variant="h6"
-            sx={{ flexGrow: 1 }}
-            content="Child Care"
-            component="Typography"
-          />
+          <Text variant="h6" sx={{ flexGrow: 1 }} content="Child Care" />
           <Icons edge="end" color="inherit" icon="Account" />
         </Toolbar>
         <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
       </AppBar>
-    </div>
+    </>
   );
 };
 
