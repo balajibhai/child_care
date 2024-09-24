@@ -1,14 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../css/Uploadfeature.css";
-import Text from "../Text";
+import Text from "../Atoms/Text";
 import UploadButtons from "../Molecules/UploadButtons";
 import MediaUploader from "../Molecules/MediaUploader";
+import { Box, styled } from "@mui/material";
 
 interface MediaItem {
   id: string;
   file: File;
   type: "image" | "video";
 }
+
+const AppContainer = styled(Box)(({ theme }) => ({
+  fontFamily: "Arial, sans-serif",
+  padding: "20px",
+}));
+
+const MediaList = styled(Box)(({ theme }) => ({
+  maxHeight: "800px",
+  overflowY: "auto",
+  border: "1px solid #ccc",
+  padding: "10px",
+}));
 
 const Uploadfeature: React.FC = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
@@ -86,15 +99,15 @@ const Uploadfeature: React.FC = () => {
   };
 
   return (
-    <div className="App">
+    <AppContainer>
       <Text variant="h4" content="Media Uploader" component="Typography" />
-      <div className="media-list" ref={mediaListRef}>
+      <MediaList ref={mediaListRef}>
         {mediaList.map((media) => (
           <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />
         ))}
-      </div>
+      </MediaList>
       <UploadButtons handleUpload={handleUpload} />
-    </div>
+    </AppContainer>
   );
 };
 

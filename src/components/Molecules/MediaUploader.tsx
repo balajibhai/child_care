@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "../Atoms/Image";
 import Video from "../Atoms/Video";
 import CommentSection from "./CommentSection";
+import { Box, styled } from "@mui/material";
 
 interface MediaUploaderProps {
   media: {
@@ -12,46 +13,49 @@ interface MediaUploaderProps {
   handleMediaLoad: () => void;
 }
 
-const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
-  const [comments, setComments] = useState<{ [key: string]: string }>({});
+const MediaItem = styled(Box)(({ theme }) => ({
+  marginBottom: "20px",
+  position: "relative",
 
-  const handleCommentChange = (id: string, comment: string) => {
-    setComments((prev) => ({
+  "& img, & video": {
+    maxWidth: "100%",
+    cursor: "pointer",
+  },
+}));
+
+const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
+  const [isMediaClicked, setMediaClicked] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const handleMediaClick = (id: string) => {
+    setMediaClicked((prev) => ({
       ...prev,
-      [id]: comment,
+      [id]: true,
     }));
   };
+
   return (
-    <div key={media.id} className="media-item">
+    <MediaItem key={media.id}>
       {media.type === "image" ? (
         <Image
           src={media.id}
-          alt=""
+          alt="Image"
           onLoad={handleMediaLoad}
-          onClick={() =>
-            handleCommentChange(media.id, comments[media.id] || "")
-          }
+          onClick={() => handleMediaClick(media.id)}
         />
       ) : (
         <Video
           id={media.id}
           src={media.id}
           onLoadedData={handleMediaLoad}
-          onClick={() =>
-            handleCommentChange(media.id, comments[media.id] || "")
-          }
+          onClick={() => handleMediaClick(media.id)}
         />
       )}
-      {comments[media.id] !== undefined && (
-        <CommentSection
-          mediaId={media.id}
-          comments={comments}
-          textAreaChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            handleCommentChange(media.id, e.target.value)
-          }
-        />
-      )}
-    </div>
+
+      {/* Show comment box if media is clicked or a comment exists (non-empty) */}
+      {isMediaClicked[media.id] && <CommentSection mediaId={media.id} />}
+    </MediaItem>
   );
 };
 

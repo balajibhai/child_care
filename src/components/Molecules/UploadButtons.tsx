@@ -1,4 +1,5 @@
 import React from "react";
+import UploadButton from "../Atoms/UploadButton";
 
 interface UploadButtonsProps {
   // Define the type of handleUpload function
@@ -10,25 +11,19 @@ interface UploadButtonsProps {
 
 const UploadButtons = ({ handleUpload }: UploadButtonsProps) => {
   return (
-    <div className="upload-buttons">
-      <label>
-        Upload Photo
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(e) => handleUpload(e, "image")}
-        />
-      </label>
-      <label>
-        Upload Video
-        <input
-          type="file"
-          accept="video/*"
-          multiple
-          onChange={(e) => handleUpload(e, "video")}
-        />
-      </label>
+    <div>
+      <UploadButton
+        accept="image/*"
+        multiple={true}
+        onChange={(e) => handleUpload(e, "image")}
+        label="Upload Photo"
+      />
+      <UploadButton
+        accept="video/*"
+        multiple={true}
+        onChange={(e) => handleUpload(e, "video")}
+        label="Upload Video"
+      />
     </div>
   );
 };

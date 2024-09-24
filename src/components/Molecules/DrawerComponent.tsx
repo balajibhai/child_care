@@ -1,5 +1,5 @@
 import { Box, Drawer } from "@mui/material";
-import Text from "../Text";
+import Text from "../Atoms/Text";
 
 interface DrawerComponentProps {
   isOpen: boolean;
