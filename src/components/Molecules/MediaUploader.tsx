@@ -55,7 +55,13 @@ const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
       )}
 
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked[media.id] && <CommentSection mediaId={media.id} />}
+      {isMediaClicked[media.id] && (
+        <CommentSection
+          mediaId={media.id}
+          placeholder="Add a comment..."
+          buttonLabel="Send"
+        />
+      )}
     </MediaItem>
   );
 };

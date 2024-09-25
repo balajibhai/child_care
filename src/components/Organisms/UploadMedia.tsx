@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
-import UploadButtons from "../Molecules/UploadButtons";
 import MediaUploader from "../Molecules/MediaUploader";
 import { Box, styled } from "@mui/material";
+import UploadSection from "../Molecules/UploadSection";
 
 interface MediaItem {
   id: string;
@@ -105,7 +105,7 @@ const Uploadfeature: React.FC = () => {
           <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />
         ))}
       </MediaList>
-      <UploadButtons handleUpload={handleUpload} />
+      <UploadSection handleUpload={handleUpload} />
     </AppContainer>
   );
 };

@@ -7,6 +7,8 @@ import GetTime from "./GetTime";
 
 interface CommentSectionProps {
   mediaId: string;
+  placeholder: string;
+  buttonLabel: string;
 }
 
 // Define CommentData type where the key is a comment and the value is a JSX element
@@ -23,7 +25,11 @@ const CommentBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CommentSection = ({ mediaId }: CommentSectionProps) => {
+const CommentSection = ({
+  mediaId,
+  placeholder,
+  buttonLabel,
+}: CommentSectionProps) => {
   const [displayText, setDisplaytext] = useState<{
     [key: string]: CommentData[];
   }>({});
@@ -54,12 +60,12 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleCommentChange(mediaId, e.target.value)
           }
-          placeholder="Add a comment..."
+          placeholder={placeholder}
         />
       </CommentBox>
       <Button
         onClick={() => handleSendClick(mediaId)}
-        label="Send"
+        label={buttonLabel}
         disabled={!comments[mediaId]}
       />
       {displayText[mediaId] && (
