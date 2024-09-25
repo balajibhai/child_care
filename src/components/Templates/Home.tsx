@@ -1,11 +1,11 @@
 import Header from "../Organisms/Header";
-import Uploadfeature from "../Organisms/UploadMedia";
+import UploadMedia from "../Organisms/UploadMedia";
 
 const Home = () => {
   return (
     <>
       <Header />
-      <Uploadfeature />
+      <UploadMedia />
     </>
   );
 };

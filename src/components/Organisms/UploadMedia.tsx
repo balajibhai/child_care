@@ -22,7 +22,7 @@ const MediaList = styled(Box)(({ theme }) => ({
   padding: "10px",
 }));
 
-const Uploadfeature: React.FC = () => {
+const UploadMedia: React.FC = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
   const mediaListRef = useRef<HTMLDivElement>(null);
@@ -110,4 +110,4 @@ const Uploadfeature: React.FC = () => {
   );
 };
 
-export default Uploadfeature;
+export default UploadMedia;
