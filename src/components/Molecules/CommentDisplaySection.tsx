@@ -1,7 +1,7 @@
 import { Box, styled } from "@mui/material";
 
 interface CommentDisplayProps {
-  displayText: string;
+  displayText: string[];
 }
 
 const CommentDisplayStyle = styled(Box)(({ theme }) => ({
@@ -13,7 +13,11 @@ const CommentDisplayStyle = styled(Box)(({ theme }) => ({
 const CommentDisplay = ({ displayText }: CommentDisplayProps) => {
   return (
     <>
-      <CommentDisplayStyle>{displayText}</CommentDisplayStyle>
+      {displayText.map((text) => (
+        <>
+          <CommentDisplayStyle>{text}</CommentDisplayStyle>
+        </>
+      ))}
     </>
   );
 };

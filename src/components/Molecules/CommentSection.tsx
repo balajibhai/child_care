@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Textarea from "../Atoms/Textarea";
-import CommentDisplay from "./CommentDisplay";
+import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
 
@@ -18,13 +18,16 @@ const CommentBox = styled(Box)(({ theme }) => ({
 }));
 
 const CommentSection = ({ mediaId }: CommentSectionProps) => {
-  const [displayText, setDisplaytext] = useState<{ [key: string]: string }>({});
+  const [displayText, setDisplaytext] = useState<{ [key: string]: string[] }>(
+    {}
+  );
+
   const [comments, setComments] = useState<{ [key: string]: string }>({});
 
   const handleSendClick = (id: string) => {
     setDisplaytext((prev) => ({
       ...prev,
-      [id]: comments[id],
+      [id]: prev[id] ? [...prev[id], comments[id]] : [comments[id]], // Push the new comment to the array
     }));
   };
 
@@ -45,7 +48,11 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
           placeholder="Add a comment..."
         />
       </CommentBox>
-      <Button onClick={() => handleSendClick(mediaId)} label="Send" />
+      <Button
+        onClick={() => handleSendClick(mediaId)}
+        label="Send"
+        disabled={comments[mediaId] ? false : true}
+      />
       {displayText[mediaId] && (
         <CommentDisplay displayText={displayText[mediaId]} />
       )}
