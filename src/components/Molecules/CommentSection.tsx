@@ -3,9 +3,15 @@ import Textarea from "../Atoms/Textarea";
 import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
+import GetTime from "./GetTime";
 
 interface CommentSectionProps {
   mediaId: string;
+}
+
+// Define CommentData type where the key is a comment and the value is a JSX element
+interface CommentData {
+  [key: string]: JSX.Element;
 }
 
 const CommentBox = styled(Box)(({ theme }) => ({
@@ -18,16 +24,21 @@ const CommentBox = styled(Box)(({ theme }) => ({
 }));
 
 const CommentSection = ({ mediaId }: CommentSectionProps) => {
-  const [displayText, setDisplaytext] = useState<{ [key: string]: string[] }>(
-    {}
-  );
+  // State to hold the display text (comments and JSX elements)
+  const [displayText, setDisplaytext] = useState<{
+    [key: string]: CommentData[];
+  }>({});
 
+  // State to hold the text of the comments
   const [comments, setComments] = useState<{ [key: string]: string }>({});
 
+  // Handle the send button click to add a new comment
   const handleSendClick = (id: string) => {
     setDisplaytext((prev) => ({
       ...prev,
-      [id]: prev[id] ? [...prev[id], comments[id]] : [comments[id]], // Push the new comment to the array
+      [id]: prev[id]
+        ? [...prev[id], { [comments[id]]: <GetTime /> }] // Add new comment and GetTime component
+        : [{ [comments[id]]: <GetTime /> }], // Initialize if no comments exist
     }));
   };
 
@@ -37,6 +48,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
       [id]: comment,
     }));
   };
+
   return (
     <>
       <CommentBox>
@@ -51,7 +63,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
       <Button
         onClick={() => handleSendClick(mediaId)}
         label="Send"
-        disabled={comments[mediaId] ? false : true}
+        disabled={!comments[mediaId]} // Disable if the input is empty
       />
       {displayText[mediaId] && (
         <CommentDisplay displayText={displayText[mediaId]} />
