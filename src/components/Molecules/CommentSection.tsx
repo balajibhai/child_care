@@ -24,15 +24,12 @@ const CommentBox = styled(Box)(({ theme }) => ({
 }));
 
 const CommentSection = ({ mediaId }: CommentSectionProps) => {
-  // State to hold the display text (comments and JSX elements)
   const [displayText, setDisplaytext] = useState<{
     [key: string]: CommentData[];
   }>({});
 
-  // State to hold the text of the comments
   const [comments, setComments] = useState<{ [key: string]: string }>({});
 
-  // Handle the send button click to add a new comment
   const handleSendClick = (id: string) => {
     setDisplaytext((prev) => ({
       ...prev,
@@ -63,7 +60,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
       <Button
         onClick={() => handleSendClick(mediaId)}
         label="Send"
-        disabled={!comments[mediaId]} // Disable if the input is empty
+        disabled={!comments[mediaId]}
       />
       {displayText[mediaId] && (
         <CommentDisplay displayText={displayText[mediaId]} />
