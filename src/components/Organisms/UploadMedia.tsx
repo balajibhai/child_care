@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
-import UploadButtons from "../Molecules/UploadButtons";
 import MediaUploader from "../Molecules/MediaUploader";
 import { Box, styled } from "@mui/material";
+import UploadSection from "../Molecules/UploadSection";
 
 interface MediaItem {
   id: string;
@@ -22,7 +22,7 @@ const MediaList = styled(Box)(({ theme }) => ({
   padding: "10px",
 }));
 
-const Uploadfeature: React.FC = () => {
+const UploadMedia: React.FC = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
   const mediaListRef = useRef<HTMLDivElement>(null);
@@ -105,9 +105,9 @@ const Uploadfeature: React.FC = () => {
           <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />
         ))}
       </MediaList>
-      <UploadButtons handleUpload={handleUpload} />
+      <UploadSection handleUpload={handleUpload} />
     </AppContainer>
   );
 };
 
-export default Uploadfeature;
+export default UploadMedia;

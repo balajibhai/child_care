@@ -1,11 +1,19 @@
 import { useState } from "react";
 import Textarea from "../Atoms/Textarea";
-import CommentDisplay from "./CommentDisplay";
+import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
+import GetTime from "./GetTime";
 
 interface CommentSectionProps {
   mediaId: string;
+  placeholder: string;
+  buttonLabel: string;
+}
+
+// Define CommentData type where the key is a comment and the value is a JSX element
+interface CommentData {
+  [key: string]: JSX.Element;
 }
 
 const CommentBox = styled(Box)(({ theme }) => ({
@@ -17,14 +25,23 @@ const CommentBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CommentSection = ({ mediaId }: CommentSectionProps) => {
-  const [displayText, setDisplaytext] = useState<{ [key: string]: string }>({});
+const CommentSection = ({
+  mediaId,
+  placeholder,
+  buttonLabel,
+}: CommentSectionProps) => {
+  const [displayText, setDisplaytext] = useState<{
+    [key: string]: CommentData[];
+  }>({});
+
   const [comments, setComments] = useState<{ [key: string]: string }>({});
 
   const handleSendClick = (id: string) => {
     setDisplaytext((prev) => ({
       ...prev,
-      [id]: comments[id],
+      [id]: prev[id]
+        ? [...prev[id], { [comments[id]]: <GetTime /> }] // Add new comment and GetTime component
+        : [{ [comments[id]]: <GetTime /> }], // Initialize if no comments exist
     }));
   };
 
@@ -34,6 +51,7 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
       [id]: comment,
     }));
   };
+
   return (
     <>
       <CommentBox>
@@ -42,10 +60,14 @@ const CommentSection = ({ mediaId }: CommentSectionProps) => {
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleCommentChange(mediaId, e.target.value)
           }
-          placeholder="Add a comment..."
+          placeholder={placeholder}
         />
       </CommentBox>
-      <Button onClick={() => handleSendClick(mediaId)} label="Send" />
+      <Button
+        onClick={() => handleSendClick(mediaId)}
+        label={buttonLabel}
+        disabled={!comments[mediaId]}
+      />
       {displayText[mediaId] && (
         <CommentDisplay displayText={displayText[mediaId]} />
       )}

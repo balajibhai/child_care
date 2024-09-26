@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Image from "../Atoms/Image";
-import Video from "../Atoms/Video";
 import CommentSection from "./CommentSection";
 import { Box, styled } from "@mui/material";
+import ShowUploaded from "./ShowUploaded";
 
 interface MediaUploaderProps {
   media: {
@@ -37,25 +36,19 @@ const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
 
   return (
     <MediaItem key={media.id}>
-      {media.type === "image" ? (
-        <Image
-          src={media.id}
-          alt="Image"
-          onLoad={handleMediaLoad}
-          onClick={() => handleMediaClick(media.id)}
-        />
-      ) : (
-        <Video
-          id={media.id}
-          src={media.id}
-          onLoadedData={handleMediaLoad}
-          onClick={() => handleMediaClick(media.id)}
-          controls={true}
+      <ShowUploaded
+        media={media}
+        onLoad={handleMediaLoad}
+        onClick={() => handleMediaClick(media.id)}
+      />
+      {/* Show comment box if media is clicked or a comment exists (non-empty) */}
+      {isMediaClicked[media.id] && (
+        <CommentSection
+          mediaId={media.id}
+          placeholder="Add a comment..."
+          buttonLabel="Send"
         />
       )}
-
-      {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked[media.id] && <CommentSection mediaId={media.id} />}
     </MediaItem>
   );
 };
