@@ -43,7 +43,7 @@ const Home = () => {
     }
   };
 
-  const handleUpload = (
+  const handlePreviewUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
     type: string
   ) => {
@@ -67,6 +67,10 @@ const Home = () => {
     setPreviewList([]);
   };
 
+  const onUpload = () => {
+    console.log("Uploaded");
+  };
+
   return (
     <>
       <Header />
@@ -76,7 +80,12 @@ const Home = () => {
         handleMediaLoad={handleMediaLoad}
         type={type}
       />
-      <UploadSection handleUpload={handleUpload} handleCancel={handleCancel} />
+      <UploadSection
+        handleUpload={handlePreviewUpload}
+        handleCancel={handleCancel}
+        previewList={previewList}
+        onClick={onUpload}
+      />
     </>
   );
 };
