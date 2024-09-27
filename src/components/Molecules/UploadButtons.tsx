@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import UploadButton from "../Atoms/UploadButton";
+import Button from "../Atoms/Button";
 
 interface UploadButtonsProps {
   // Define the type of handleUpload function
   handleUpload: (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "image" | "video"
+    type: string
   ) => void;
+  handleCancel: () => void;
 }
 
-const UploadButtons = ({ handleUpload }: UploadButtonsProps) => {
+const UploadButtons = ({ handleUpload, handleCancel }: UploadButtonsProps) => {
+  const [selectFileClick, setSelectFileClick] = useState(true);
+  const onButtonClick = () => {
+    setSelectFileClick(true);
+    handleCancel();
+  };
   return (
     <>
-      <UploadButton
-        accept="image/*"
-        multiple={true}
-        onChange={(e) => handleUpload(e, "image")}
-        label="Upload Photo"
-      />
-      <UploadButton
+      <div
+        onClick={() => setSelectFileClick(false)}
+        style={{ display: selectFileClick ? "block" : "none" }}
+      >
+        <UploadButton
+          accept="image/*,video/*"
+          multiple={true}
+          onChange={(e) => handleUpload(e, "select")}
+          label="Select a file"
+        />
+      </div>
+      <div style={{ display: !selectFileClick ? "block" : "none" }}>
+        <Button disabled={false} label="Cancel" onClick={onButtonClick} />
+      </div>
+      {/* <UploadButton
         accept="video/*"
         multiple={true}
         onChange={(e) => handleUpload(e, "video")}
         label="Upload Video"
-      />
+      /> */}
     </>
   );
 };

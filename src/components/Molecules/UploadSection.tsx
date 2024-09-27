@@ -1,22 +1,23 @@
-import CommentSection from "./CommentSection";
+// import CommentSection from "./CommentSection";
 import UploadButtons from "./UploadButtons";
 
 interface UploadSectionProps {
   handleUpload: (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "image" | "video"
+    type: string
   ) => void;
+  handleCancel: () => void;
 }
 
-const UploadSection = ({ handleUpload }: UploadSectionProps) => {
+const UploadSection = ({ handleUpload, handleCancel }: UploadSectionProps) => {
   return (
     <>
-      <UploadButtons handleUpload={handleUpload} />
-      <CommentSection
+      <UploadButtons handleUpload={handleUpload} handleCancel={handleCancel} />
+      {/* <CommentSection
         mediaId="post"
         placeholder="What's in your mind?"
         buttonLabel="Post"
-      />
+      /> */}
     </>
   );
 };

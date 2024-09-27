@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
-import MediaUploader from "../Molecules/MediaUploader";
 import { Box, styled } from "@mui/material";
 import UploadSection from "../Molecules/UploadSection";
+import ShowMediaList from "../Molecules/ShowMediaList";
 
 interface MediaItem {
   id: string;
@@ -10,16 +10,13 @@ interface MediaItem {
   type: "image" | "video";
 }
 
+interface fileProps {
+  type: string;
+}
+
 const AppContainer = styled(Box)(({ theme }) => ({
   fontFamily: "Arial, sans-serif",
   padding: "20px",
-}));
-
-const MediaList = styled(Box)(({ theme }) => ({
-  maxHeight: "800px",
-  overflowY: "auto",
-  border: "1px solid #ccc",
-  padding: "10px",
 }));
 
 const UploadMedia: React.FC = () => {
@@ -28,6 +25,7 @@ const UploadMedia: React.FC = () => {
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [, setLoadedMediaCount] = useState(0);
   const [newMediaCount, setNewMediaCount] = useState(0);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     mediaList.forEach((media) => {
@@ -68,22 +66,32 @@ const UploadMedia: React.FC = () => {
     };
   }, [mediaList]);
 
+  const getType = (file: fileProps) => {
+    if (file.type.startsWith("image/")) {
+      return "image";
+    } else if (file.type.startsWith("video/")) {
+      return "video";
+    }
+  };
+
   const handleUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "image" | "video"
+    type: string
   ) => {
     const files = Array.from(event.target.files || []);
     const newMedia = files.map((file) => {
       return {
         id: URL.createObjectURL(file),
         file: file,
-        type: type,
+        type: getType(file),
       } as MediaItem;
     });
     setNewMediaCount(newMedia.length);
     setLoadedMediaCount(0);
     setMediaList((prev) => [...prev, ...newMedia]);
+    setType(type);
   };
+
   const handleMediaLoad = () => {
     setLoadedMediaCount((prev) => {
       const newCount = prev + 1;
@@ -97,15 +105,35 @@ const UploadMedia: React.FC = () => {
     });
   };
 
+  const handleCancel = () => {
+    setMediaList([]);
+  };
+
   return (
     <AppContainer>
-      <Text variant="h4" content="Media Uploader" />
-      <MediaList ref={mediaListRef}>
-        {mediaList.map((media) => (
-          <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />
-        ))}
-      </MediaList>
-      <UploadSection handleUpload={handleUpload} />
+      {type === "upload" && (
+        <>
+          <Text variant="h4" content="Media Uploader" />
+          <ShowMediaList
+            mediaListRef={mediaListRef}
+            mediaList={mediaList}
+            handleMediaLoad={handleMediaLoad}
+            type={type}
+          />
+        </>
+      )}
+      {type === "select" && mediaList.length !== 0 && (
+        <>
+          <Text variant="h6" content="Preview" />
+          <ShowMediaList
+            mediaListRef={mediaListRef}
+            mediaList={mediaList}
+            handleMediaLoad={handleMediaLoad}
+            type={type}
+          />
+        </>
+      )}
+      <UploadSection handleUpload={handleUpload} handleCancel={handleCancel} />
     </AppContainer>
   );
 };

@@ -10,19 +10,29 @@ interface MediaUploaderProps {
     type: "image" | "video";
   };
   handleMediaLoad: () => void;
+  type: string;
 }
 
-const MediaItem = styled(Box)(({ theme }) => ({
+interface MediaSizeProps {
+  type: string;
+}
+
+const MediaItem = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   marginBottom: "20px",
   position: "relative",
 
   "& img, & video": {
-    maxWidth: "100%",
+    width: type === "select" ? "200px" : "auto",
+    maxWidth: type === "select" ? "" : "100%",
     cursor: "pointer",
   },
 }));
 
-const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
+const MediaUploader = ({
+  media,
+  handleMediaLoad,
+  type,
+}: MediaUploaderProps) => {
   const [isMediaClicked, setMediaClicked] = useState<{
     [key: string]: boolean;
   }>({});
@@ -35,14 +45,14 @@ const MediaUploader = ({ media, handleMediaLoad }: MediaUploaderProps) => {
   };
 
   return (
-    <MediaItem key={media.id}>
+    <MediaItem key={media.id} type={type}>
       <ShowUploaded
         media={media}
         onLoad={handleMediaLoad}
         onClick={() => handleMediaClick(media.id)}
       />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked[media.id] && (
+      {isMediaClicked[media.id] && type !== "select" && (
         <CommentSection
           mediaId={media.id}
           placeholder="Add a comment..."

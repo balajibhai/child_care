@@ -13,7 +13,7 @@ interface ShowUploadedProps {
 
 const ShowUploaded = ({ media, onLoad, onClick }: ShowUploadedProps) => {
   return (
-    <div>
+    <>
       {media.type === "image" ? (
         <Image src={media.id} alt="Image" onLoad={onLoad} onClick={onClick} />
       ) : (
@@ -25,7 +25,7 @@ const ShowUploaded = ({ media, onLoad, onClick }: ShowUploadedProps) => {
           controls={true}
         />
       )}
-    </div>
+    </>
   );
 };
 
