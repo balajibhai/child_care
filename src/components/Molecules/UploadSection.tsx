@@ -1,5 +1,4 @@
 // import CommentSection from "./CommentSection";
-import Button from "../Atoms/Button";
 import UploadButtons from "./UploadButtons";
 
 interface MediaItem {
@@ -15,7 +14,7 @@ interface UploadSectionProps {
   ) => void;
   handleCancel: () => void;
   previewList: MediaItem[];
-  onClick: () => void;
+  onClick: (type: string) => void;
 }
 
 const UploadSection = ({
@@ -26,10 +25,12 @@ const UploadSection = ({
 }: UploadSectionProps) => {
   return (
     <>
-      <UploadButtons handleUpload={handleUpload} handleCancel={handleCancel} />
-      {previewList.length && (
-        <Button onClick={onClick} label={"Upload"} disabled={false} />
-      )}
+      <UploadButtons
+        handleUpload={handleUpload}
+        handleCancel={handleCancel}
+        previewList={previewList}
+        onClick={onClick}
+      />
       {/* <CommentSection
         mediaId="post"
         placeholder="What's in your mind?"

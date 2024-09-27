@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
+import Calendar from "../Atoms/Calendar";
+import Time from "../Atoms/Time";
 
 interface fileProps {
   type: string;
@@ -58,7 +60,6 @@ const Home = () => {
     });
     setNewMediaCount(newMedia.length);
     setLoadedMediaCount(0);
-    setMediaList((prev) => [...prev, ...newMedia]);
     setPreviewList((prev) => [...prev, ...newMedia]);
     setType(type);
   };
@@ -67,8 +68,10 @@ const Home = () => {
     setPreviewList([]);
   };
 
-  const onUpload = () => {
-    console.log("Uploaded");
+  const onUpload = (type: string) => {
+    setMediaList((prev) => [...prev, ...previewList]);
+    setType(type);
+    setPreviewList([]);
   };
 
   return (
@@ -86,6 +89,8 @@ const Home = () => {
         previewList={previewList}
         onClick={onUpload}
       />
+      <Calendar />
+      <Time />
     </>
   );
 };
