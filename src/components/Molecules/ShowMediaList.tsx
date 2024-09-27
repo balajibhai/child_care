@@ -5,6 +5,7 @@ interface MediaItem {
   id: string;
   file: File;
   type: "image" | "video";
+  filename: string;
 }
 
 interface ShowMediaListProps {

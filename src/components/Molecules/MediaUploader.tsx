@@ -8,6 +8,7 @@ interface MediaUploaderProps {
     id: string;
     file: File;
     type: "image" | "video";
+    filename: string;
   };
   handleMediaLoad: () => void;
   type: string;

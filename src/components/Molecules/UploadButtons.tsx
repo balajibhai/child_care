@@ -33,12 +33,6 @@ const UploadButtons = ({ handleUpload, handleCancel }: UploadButtonsProps) => {
       <div style={{ display: !selectFileClick ? "block" : "none" }}>
         <Button disabled={false} label="Cancel" onClick={onButtonClick} />
       </div>
-      {/* <UploadButton
-        accept="video/*"
-        multiple={true}
-        onChange={(e) => handleUpload(e, "video")}
-        label="Upload Video"
-      /> */}
     </>
   );
 };

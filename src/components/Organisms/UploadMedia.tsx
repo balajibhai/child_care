@@ -1,16 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
 import { Box, styled } from "@mui/material";
-import UploadSection from "../Molecules/UploadSection";
 import ShowMediaList from "../Molecules/ShowMediaList";
 
 interface MediaItem {
   id: string;
   file: File;
   type: "image" | "video";
+  filename: string;
 }
 
-interface fileProps {
+interface UploadMediaProps {
+  mediaListRef: React.RefObject<HTMLDivElement>;
+  mediaList: MediaItem[];
+  handleMediaLoad: () => void;
   type: string;
 }
 
@@ -19,16 +22,16 @@ const AppContainer = styled(Box)(({ theme }) => ({
   padding: "20px",
 }));
 
-const UploadMedia: React.FC = () => {
-  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+const UploadMedia = ({
+  mediaListRef,
+  mediaList,
+  handleMediaLoad,
+  type,
+}: UploadMediaProps) => {
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
-  const mediaListRef = useRef<HTMLDivElement>(null);
-  const [, setLoadedMediaCount] = useState(0);
-  const [newMediaCount, setNewMediaCount] = useState(0);
-  const [type, setType] = useState("");
 
   useEffect(() => {
-    mediaList.forEach((media) => {
+    mediaList.forEach((media: MediaItem) => {
       if (media.type === "video" && !observers.current[media.id]) {
         const videoElement = document.getElementById(
           media.id
@@ -66,49 +69,6 @@ const UploadMedia: React.FC = () => {
     };
   }, [mediaList]);
 
-  const getType = (file: fileProps) => {
-    if (file.type.startsWith("image/")) {
-      return "image";
-    } else if (file.type.startsWith("video/")) {
-      return "video";
-    }
-  };
-
-  const handleUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: string
-  ) => {
-    const files = Array.from(event.target.files || []);
-    const newMedia = files.map((file) => {
-      return {
-        id: URL.createObjectURL(file),
-        file: file,
-        type: getType(file),
-      } as MediaItem;
-    });
-    setNewMediaCount(newMedia.length);
-    setLoadedMediaCount(0);
-    setMediaList((prev) => [...prev, ...newMedia]);
-    setType(type);
-  };
-
-  const handleMediaLoad = () => {
-    setLoadedMediaCount((prev) => {
-      const newCount = prev + 1;
-      if (newCount === newMediaCount) {
-        // All new media items have loaded
-        if (mediaListRef.current) {
-          mediaListRef.current.scrollTop = mediaListRef.current.scrollHeight;
-        }
-      }
-      return newCount;
-    });
-  };
-
-  const handleCancel = () => {
-    setMediaList([]);
-  };
-
   return (
     <AppContainer>
       {type === "upload" && (
@@ -133,7 +93,6 @@ const UploadMedia: React.FC = () => {
           />
         </>
       )}
-      <UploadSection handleUpload={handleUpload} handleCancel={handleCancel} />
     </AppContainer>
   );
 };

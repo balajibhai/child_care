@@ -6,6 +6,7 @@ interface ShowUploadedProps {
     id: string;
     file: File;
     type: "image" | "video";
+    filename: string;
   };
   onLoad: () => void;
   onClick: () => void;
@@ -15,15 +16,30 @@ const ShowUploaded = ({ media, onLoad, onClick }: ShowUploadedProps) => {
   return (
     <>
       {media.type === "image" ? (
-        <Image src={media.id} alt="Image" onLoad={onLoad} onClick={onClick} />
+        <>
+          <div>
+            <Image
+              src={media.id}
+              alt="Image"
+              onLoad={onLoad}
+              onClick={onClick}
+            />
+          </div>
+          <div>{media.filename}</div>
+        </>
       ) : (
-        <Video
-          id={media.id}
-          src={media.id}
-          onLoadedData={onLoad}
-          onClick={onClick}
-          controls={true}
-        />
+        <>
+          <div>
+            <Video
+              id={media.id}
+              src={media.id}
+              onLoadedData={onLoad}
+              onClick={onClick}
+              controls={true}
+            />
+          </div>
+          <div>{media.filename}</div>
+        </>
       )}
     </>
   );
