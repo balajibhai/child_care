@@ -1,26 +1,29 @@
 import { Box, styled } from "@mui/material";
-import MediaUploader from "./MediaUploader";
+import MediaUploader, {
+  MediaTypeEnum,
+  MediaUploaderType,
+} from "./MediaUploader";
 
 interface MediaItem {
   id: string;
   file: File;
-  type: "image" | "video";
+  type: MediaTypeEnum;
   filename: string;
 }
 
 interface ShowMediaListProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  type: string;
+  type: MediaUploaderType;
   handleMediaLoad: () => void;
 }
 
 interface MediaListProps {
-  type: string;
+  type: MediaUploaderType;
 }
 
 const MediaList = styled(Box)<MediaListProps>(({ theme, type }) => ({
-  maxHeight: type === "select" ? "250px" : "800px",
+  maxHeight: type === MediaUploaderType.SELECT ? "250px" : "800px",
   overflowY: "auto",
   border: "1px solid #ccc",
   padding: "10px",

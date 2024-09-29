@@ -1,12 +1,6 @@
-interface ImageProps {
-  id: string;
-  src: string;
-  onLoadedData: () => void;
-  onClick: () => void;
-  controls: boolean;
-}
+import { VideoType } from "../../types/MediaTypes";
 
-const Video = ({ id, src, onLoadedData, onClick, controls }: ImageProps) => {
+const Video = ({ id, src, onLoadedData, onClick, controls }: VideoType) => {
   return (
     <>
       <video

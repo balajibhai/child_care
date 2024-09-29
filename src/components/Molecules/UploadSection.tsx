@@ -1,20 +1,21 @@
 // import CommentSection from "./CommentSection";
+import { MediaTypeEnum, MediaUploaderType } from "./MediaUploader";
 import UploadButtons from "./UploadButtons";
 
 interface MediaItem {
   id: string;
   file: File;
-  type: "image" | "video";
+  type: MediaTypeEnum;
   filename: string;
 }
 interface UploadSectionProps {
   handleUpload: (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: string
+    type: MediaUploaderType.SELECT
   ) => void;
   handleCancel: () => void;
   previewList: MediaItem[];
-  onClick: (type: string) => void;
+  onClick: (type: MediaUploaderType.UPLOAD) => void;
 }
 
 const UploadSection = ({

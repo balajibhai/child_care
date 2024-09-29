@@ -2,11 +2,12 @@ import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
 import { Box, styled } from "@mui/material";
 import ShowMediaList from "../Molecules/ShowMediaList";
+import { MediaTypeEnum, MediaUploaderType } from "../Molecules/MediaUploader";
 
 interface MediaItem {
   id: string;
   file: File;
-  type: "image" | "video";
+  type: MediaTypeEnum;
   filename: string;
 }
 
@@ -14,7 +15,7 @@ interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
   handleMediaLoad: () => void;
-  type: string;
+  type: MediaUploaderType;
 }
 
 const AppContainer = styled(Box)(({ theme }) => ({
@@ -32,7 +33,7 @@ const UploadMedia = ({
 
   useEffect(() => {
     mediaList.forEach((media: MediaItem) => {
-      if (media.type === "video" && !observers.current[media.id]) {
+      if (media.type === MediaTypeEnum.VIDEO && !observers.current[media.id]) {
         const videoElement = document.getElementById(
           media.id
         ) as HTMLVideoElement | null;
@@ -71,7 +72,7 @@ const UploadMedia = ({
 
   return (
     <AppContainer>
-      {type === "upload" && (
+      {type === MediaUploaderType.UPLOAD && (
         <>
           <Text variant="h4" content="Media Uploader" />
           <ShowMediaList
@@ -82,7 +83,7 @@ const UploadMedia = ({
           />
         </>
       )}
-      {type === "select" && mediaList.length !== 0 && (
+      {type === MediaUploaderType.SELECT && mediaList.length !== 0 && (
         <>
           <Text variant="h6" content="Preview" />
           <ShowMediaList

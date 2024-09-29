@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import UploadButton from "../Atoms/UploadButton";
 import Button from "../Atoms/Button";
+import { MediaTypeEnum, MediaUploaderType } from "./MediaUploader";
 
 interface MediaItem {
   id: string;
   file: File;
-  type: "image" | "video";
+  type: MediaTypeEnum;
   filename: string;
 }
 
@@ -13,11 +14,11 @@ interface UploadButtonsProps {
   // Define the type of handleUpload function
   handleUpload: (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: string
+    type: MediaUploaderType.SELECT
   ) => void;
   handleCancel: () => void;
   previewList: MediaItem[];
-  onClick: (type: string) => void;
+  onClick: (type: MediaUploaderType.UPLOAD) => void;
 }
 
 const UploadButtons = ({
@@ -33,7 +34,7 @@ const UploadButtons = ({
   };
   const onUpload = () => {
     setSelectFileClick(true);
-    onClick("upload");
+    onClick(MediaUploaderType.UPLOAD);
   };
   return (
     <>
@@ -44,7 +45,7 @@ const UploadButtons = ({
         <UploadButton
           accept="image/*,video/*"
           multiple={true}
-          onChange={(e) => handleUpload(e, "select")}
+          onChange={(e) => handleUpload(e, MediaUploaderType.SELECT)}
           label="Select a file"
         />
       </div>

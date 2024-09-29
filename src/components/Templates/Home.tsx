@@ -4,6 +4,7 @@ import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
 import Calendar from "../Atoms/Calendar";
 import Time from "../Atoms/Time";
+import { MediaTypeEnum, MediaUploaderType } from "../Molecules/MediaUploader";
 
 interface fileProps {
   type: string;
@@ -12,7 +13,7 @@ interface fileProps {
 interface MediaItem {
   id: string;
   file: File;
-  type: "image" | "video";
+  type: MediaTypeEnum;
   filename: string;
 }
 
@@ -20,7 +21,7 @@ const Home = () => {
   const [, setLoadedMediaCount] = useState(0);
   const [newMediaCount, setNewMediaCount] = useState(0);
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState<MediaUploaderType>(MediaUploaderType.SELECT);
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewList, setPreviewList] = useState<MediaItem[]>([]);
 
@@ -47,7 +48,7 @@ const Home = () => {
 
   const handlePreviewUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: string
+    type: MediaUploaderType
   ) => {
     const files = Array.from(event.target.files || []);
     const newMedia = files.map((file) => {
@@ -68,7 +69,7 @@ const Home = () => {
     setPreviewList([]);
   };
 
-  const onUpload = (type: string) => {
+  const onUpload = (type: MediaUploaderType) => {
     setMediaList((prev) => [...prev, ...previewList]);
     setType(type);
     setPreviewList([]);
@@ -79,7 +80,7 @@ const Home = () => {
       <Header />
       <UploadMedia
         mediaListRef={mediaListRef}
-        mediaList={type === "upload" ? mediaList : previewList}
+        mediaList={type === MediaUploaderType.UPLOAD ? mediaList : previewList}
         handleMediaLoad={handleMediaLoad}
         type={type}
       />

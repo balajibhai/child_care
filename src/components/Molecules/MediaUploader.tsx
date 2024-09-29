@@ -3,19 +3,28 @@ import CommentSection from "./CommentSection";
 import { Box, styled } from "@mui/material";
 import ShowUploaded from "./ShowUploaded";
 
+export enum MediaTypeEnum {
+  IMAGE = "image",
+  VIDEO = "video",
+}
 interface MediaUploaderProps {
   media: {
     id: string;
     file: File;
-    type: "image" | "video";
+    type: MediaTypeEnum;
     filename: string;
   };
   handleMediaLoad: () => void;
-  type: string;
+  type: MediaUploaderType;
+}
+
+export enum MediaUploaderType {
+  SELECT = "SELECT",
+  UPLOAD = "UPLOAD",
 }
 
 interface MediaSizeProps {
-  type: string;
+  type: MediaUploaderType;
 }
 
 const MediaItem = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
@@ -23,8 +32,8 @@ const MediaItem = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   position: "relative",
 
   "& img, & video": {
-    width: type === "select" ? "200px" : "auto",
-    maxWidth: type === "select" ? "" : "100%",
+    width: type === MediaUploaderType.SELECT ? "200px" : "auto",
+    maxWidth: type === MediaUploaderType.SELECT ? "" : "100%",
     cursor: "pointer",
   },
 }));
@@ -53,7 +62,7 @@ const MediaUploader = ({
         onClick={() => handleMediaClick(media.id)}
       />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked[media.id] && type !== "select" && (
+      {isMediaClicked[media.id] && type === MediaUploaderType.UPLOAD && (
         <CommentSection
           mediaId={media.id}
           placeholder="Add a comment..."
