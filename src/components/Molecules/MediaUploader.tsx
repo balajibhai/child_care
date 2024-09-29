@@ -32,17 +32,19 @@ const MediaItem = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   position: "relative",
 
   "& img, & video": {
-    width: type === MediaUploaderType.SELECT ? "200px" : "auto",
-    maxWidth: type === MediaUploaderType.SELECT ? "" : "100%",
+    width: MediaItemCss[type].width,
+    maxWidth: MediaItemCss[type].maxWidth,
     cursor: "pointer",
   },
 }));
 
-const MediaUploader = ({
-  media,
-  handleMediaLoad,
-  type,
-}: MediaUploaderProps) => {
+const MediaItemCss = {
+  SELECT: { width: "200px", maxWidth: "" },
+  UPLOAD: { width: "auto", maxWidth: "100%" },
+};
+
+const MediaUploader = (props: MediaUploaderProps) => {
+  const { media, type, handleMediaLoad } = props;
   const [isMediaClicked, setMediaClicked] = useState<{
     [key: string]: boolean;
   }>({});
