@@ -3,7 +3,7 @@ import CommentSection from "./CommentSection";
 import { Box, styled } from "@mui/material";
 import ShowUploaded from "./ShowUploaded";
 
-export enum MediaTypeEnum {
+export enum mediaType {
   IMAGE = "image",
   VIDEO = "video",
 }
@@ -11,23 +11,23 @@ interface MediaUploaderProps {
   media: {
     id: string;
     file: File;
-    type: MediaTypeEnum;
+    type: mediaType;
     filename: string;
   };
   handleMediaLoad: () => void;
-  type: MediaUploaderType;
+  type: MediaUploaderEnum;
 }
 
-export enum MediaUploaderType {
+export enum MediaUploaderEnum {
   SELECT = "SELECT",
   UPLOAD = "UPLOAD",
 }
 
 interface MediaSizeProps {
-  type: MediaUploaderType;
+  type: MediaUploaderEnum;
 }
 
-const MediaItem = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
+const MediaItemStyle = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   marginBottom: "20px",
   position: "relative",
 
@@ -45,33 +45,24 @@ const MediaItemCss = {
 
 const MediaUploader = (props: MediaUploaderProps) => {
   const { media, type, handleMediaLoad } = props;
-  const [isMediaClicked, setMediaClicked] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [isMediaClicked, setMediaClicked] = useState(false);
 
   const handleMediaClick = (id: string) => {
-    setMediaClicked((prev) => ({
-      ...prev,
-      [id]: true,
-    }));
+    setMediaClicked(true);
   };
 
   return (
-    <MediaItem key={media.id} type={type}>
+    <MediaItemStyle key={media.id} type={type}>
       <ShowUploaded
         media={media}
         onLoad={handleMediaLoad}
         onClick={() => handleMediaClick(media.id)}
       />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked[media.id] && type === MediaUploaderType.UPLOAD && (
-        <CommentSection
-          mediaId={media.id}
-          placeholder="Add a comment..."
-          buttonLabel="Send"
-        />
+      {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
+        <CommentSection mediaId={media.id} placeholder="Add a comment..." />
       )}
-    </MediaItem>
+    </MediaItemStyle>
   );
 };
 

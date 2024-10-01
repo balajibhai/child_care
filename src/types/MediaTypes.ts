@@ -1,4 +1,4 @@
-import { MediaTypeEnum } from "../components/Molecules/MediaUploader";
+import { mediaType } from "../components/Molecules/MediaUploader";
 
 export type MediaType = {
   id?: string;
@@ -6,7 +6,7 @@ export type MediaType = {
   alt: string;
   onLoad: () => void;
   onClick: () => void;
-  type: MediaTypeEnum;
+  type: mediaType;
 };
 export type ImageType = Omit<MediaType, "type"> & {};
 

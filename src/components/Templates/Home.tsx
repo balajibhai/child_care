@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
 import Calendar from "../Atoms/Calendar";
 import Time from "../Atoms/Time";
-import { MediaTypeEnum, MediaUploaderType } from "../Molecules/MediaUploader";
+import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
 
 interface fileProps {
   type: string;
@@ -13,21 +13,30 @@ interface fileProps {
 interface MediaItem {
   id: string;
   file: File;
-  type: MediaTypeEnum;
+  type: mediaType;
   filename: string;
 }
 
 const Home = () => {
-  const [, setLoadedMediaCount] = useState(0);
+  const [LoadedMediaCount, setLoadedMediaCount] = useState(0);
   const [newMediaCount, setNewMediaCount] = useState(0);
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
-  const [type, setType] = useState<MediaUploaderType>(MediaUploaderType.SELECT);
+  const [type, setType] = useState<MediaUploaderEnum>(MediaUploaderEnum.SELECT);
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewList, setPreviewList] = useState<MediaItem[]>([]);
+  const [showUploadButton, setShowUploadButton] = useState(false);
+
+  useEffect(() => {
+    if (previewList.length > 0) {
+      setShowUploadButton(true);
+    } else {
+      setShowUploadButton(false);
+    }
+  }, [previewList.length]);
 
   const handleMediaLoad = () => {
-    setLoadedMediaCount((prev) => {
-      const newCount = prev + 1;
+    setLoadedMediaCount((LoadedMediaCount) => {
+      const newCount = LoadedMediaCount + 1;
       if (newCount === newMediaCount) {
         // All new media items have loaded
         if (mediaListRef.current) {
@@ -46,14 +55,11 @@ const Home = () => {
     }
   };
 
-  const handlePreviewUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: MediaUploaderType
-  ) => {
+  const handlePreviewUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     const newMedia = files.map((file) => {
       return {
-        id: URL.createObjectURL(file),
+        id: file.name,
         file: file,
         type: getType(file),
         filename: file.name, // Add filename property
@@ -62,16 +68,16 @@ const Home = () => {
     setNewMediaCount(newMedia.length);
     setLoadedMediaCount(0);
     setPreviewList((prev) => [...prev, ...newMedia]);
-    setType(type);
+    setType(MediaUploaderEnum.SELECT);
   };
 
   const handleCancel = () => {
     setPreviewList([]);
   };
 
-  const onUpload = (type: MediaUploaderType) => {
+  const onUpload = () => {
     setMediaList((prev) => [...prev, ...previewList]);
-    setType(type);
+    setType(MediaUploaderEnum.UPLOAD);
     setPreviewList([]);
   };
 
@@ -80,15 +86,15 @@ const Home = () => {
       <Header />
       <UploadMedia
         mediaListRef={mediaListRef}
-        mediaList={type === MediaUploaderType.UPLOAD ? mediaList : previewList}
+        mediaList={type === MediaUploaderEnum.UPLOAD ? mediaList : previewList}
         handleMediaLoad={handleMediaLoad}
         type={type}
       />
       <UploadSection
         handleUpload={handlePreviewUpload}
         handleCancel={handleCancel}
-        previewList={previewList}
-        onClick={onUpload}
+        showUploadButton={showUploadButton}
+        onUpload={onUpload}
       />
       <Calendar />
       <Time />

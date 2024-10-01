@@ -3,17 +3,17 @@ import Textarea from "../Atoms/Textarea";
 import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
-import GetTime from "./GetTime";
+import TimeComponent from "./TimeComponent";
 
 interface CommentSectionProps {
   mediaId: string;
   placeholder: string;
-  buttonLabel: string;
 }
 
 // Define CommentData type where the key is a comment and the value is a JSX element
 interface CommentData {
-  [key: string]: JSX.Element;
+  comment: string;
+  time: JSX.Element;
 }
 
 const CommentBox = styled(Box)(({ theme }) => ({
@@ -25,11 +25,7 @@ const CommentBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CommentSection = ({
-  mediaId,
-  placeholder,
-  buttonLabel,
-}: CommentSectionProps) => {
+const CommentSection = ({ mediaId, placeholder }: CommentSectionProps) => {
   const [displayText, setDisplaytext] = useState<{
     [key: string]: CommentData[];
   }>({});
@@ -37,12 +33,26 @@ const CommentSection = ({
   const [comments, setComments] = useState<{ [key: string]: string }>({});
 
   const handleSendClick = (id: string) => {
-    setDisplaytext((prev) => ({
-      ...prev,
-      [id]: prev[id]
-        ? [...prev[id], { [comments[id]]: <GetTime /> }] // Add new comment and GetTime component
-        : [{ [comments[id]]: <GetTime /> }], // Initialize if no comments exist
-    }));
+    setDisplaytext((prev) => {
+      const currentComments = prev[id];
+      const comment = comments[id];
+      const time = <TimeComponent />;
+
+      // Check if there are existing comments for the given id
+      if (currentComments) {
+        // Add new comment to the existing array of comments
+        return {
+          ...prev,
+          [id]: [...currentComments, { comment, time }],
+        };
+      } else {
+        // Initialize the comments array if none exist
+        return {
+          ...prev,
+          [id]: [{ comment, time }],
+        };
+      }
+    });
   };
 
   const handleCommentChange = (id: string, comment: string) => {
@@ -65,7 +75,7 @@ const CommentSection = ({
       </CommentBox>
       <Button
         onClick={() => handleSendClick(mediaId)}
-        label={buttonLabel}
+        label={"Send"}
         disabled={!comments[mediaId]}
       />
       {displayText[mediaId] && (

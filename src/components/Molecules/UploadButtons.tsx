@@ -1,40 +1,29 @@
 import React, { useState } from "react";
 import UploadButton from "../Atoms/UploadButton";
 import Button from "../Atoms/Button";
-import { MediaTypeEnum, MediaUploaderType } from "./MediaUploader";
-
-interface MediaItem {
-  id: string;
-  file: File;
-  type: MediaTypeEnum;
-  filename: string;
-}
 
 interface UploadButtonsProps {
   // Define the type of handleUpload function
-  handleUpload: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: MediaUploaderType.SELECT
-  ) => void;
+  handleUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleCancel: () => void;
-  previewList: MediaItem[];
-  onClick: (type: MediaUploaderType.UPLOAD) => void;
+  showUploadButton: boolean;
+  onUpload: () => void;
 }
 
 const UploadButtons = ({
   handleUpload,
   handleCancel,
-  previewList,
-  onClick,
+  onUpload,
+  showUploadButton,
 }: UploadButtonsProps) => {
   const [selectFileClick, setSelectFileClick] = useState(true);
   const onButtonClick = () => {
     setSelectFileClick(true);
     handleCancel();
   };
-  const onUpload = () => {
+  const onUploadCallback = () => {
     setSelectFileClick(true);
-    onClick(MediaUploaderType.UPLOAD);
+    onUpload();
   };
   return (
     <>
@@ -45,15 +34,15 @@ const UploadButtons = ({
         <UploadButton
           accept="image/*,video/*"
           multiple={true}
-          onChange={(e) => handleUpload(e, MediaUploaderType.SELECT)}
+          onChange={(e) => handleUpload(e)}
           label="Select a file"
         />
       </div>
       <div style={{ display: !selectFileClick ? "block" : "none" }}>
-        <Button disabled={false} label="Cancel" onClick={onButtonClick} />
+        <Button label="Cancel" onClick={onButtonClick} />
       </div>
-      {previewList.length > 0 && (
-        <Button onClick={onUpload} label={"Upload"} disabled={false} />
+      {showUploadButton && (
+        <Button onClick={onUploadCallback} label={"Upload"} />
       )}
     </>
   );

@@ -1,42 +1,26 @@
-// import CommentSection from "./CommentSection";
-import { MediaTypeEnum, MediaUploaderType } from "./MediaUploader";
 import UploadButtons from "./UploadButtons";
 
-interface MediaItem {
-  id: string;
-  file: File;
-  type: MediaTypeEnum;
-  filename: string;
-}
 interface UploadSectionProps {
-  handleUpload: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: MediaUploaderType.SELECT
-  ) => void;
+  handleUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleCancel: () => void;
-  previewList: MediaItem[];
-  onClick: (type: MediaUploaderType.UPLOAD) => void;
+  showUploadButton: boolean;
+  onUpload: () => void;
 }
 
 const UploadSection = ({
   handleUpload,
   handleCancel,
-  previewList,
-  onClick,
+  onUpload,
+  showUploadButton,
 }: UploadSectionProps) => {
   return (
     <>
       <UploadButtons
         handleUpload={handleUpload}
         handleCancel={handleCancel}
-        previewList={previewList}
-        onClick={onClick}
+        showUploadButton={showUploadButton}
+        onUpload={onUpload}
       />
-      {/* <CommentSection
-        mediaId="post"
-        placeholder="What's in your mind?"
-        buttonLabel="Post"
-      /> */}
     </>
   );
 };

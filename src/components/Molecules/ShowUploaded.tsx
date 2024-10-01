@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
 import Image from "../Atoms/Image";
 import Video from "../Atoms/Video";
-import { MediaTypeEnum } from "./MediaUploader";
+import { mediaType } from "./MediaUploader";
 
 interface ShowUploadedProps {
   media: {
     id: string;
     file: File;
-    type: MediaTypeEnum;
+    type: mediaType;
     filename: string;
   };
   onLoad: () => void;
@@ -14,11 +15,21 @@ interface ShowUploadedProps {
 }
 
 const ShowUploaded = ({ media, onLoad, onClick }: ShowUploadedProps) => {
+  const [mediaUrl, setMediaUrl] = useState("");
+
+  useEffect(() => {
+    // Generate a blob URL for the media file
+    const url = URL.createObjectURL(media.file);
+    setMediaUrl(url);
+
+    // Clean up the object URL when the component unmounts
+    return () => URL.revokeObjectURL(url);
+  }, [media.file]);
   return (
     <>
       <div>
-        {media.type === MediaTypeEnum.IMAGE ? (
-          <Image src={media.id} alt="Image" onLoad={onLoad} onClick={onClick} />
+        {media.type === mediaType.IMAGE ? (
+          <Image src={mediaUrl} alt="Image" onLoad={onLoad} onClick={onClick} />
         ) : (
           <Video
             id={media.id}

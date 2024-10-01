@@ -2,12 +2,12 @@ import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
 import { Box, styled } from "@mui/material";
 import ShowMediaList from "../Molecules/ShowMediaList";
-import { MediaTypeEnum, MediaUploaderType } from "../Molecules/MediaUploader";
+import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
 
 interface MediaItem {
   id: string;
   file: File;
-  type: MediaTypeEnum;
+  type: mediaType;
   filename: string;
 }
 
@@ -15,7 +15,7 @@ interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
   handleMediaLoad: () => void;
-  type: MediaUploaderType;
+  type: MediaUploaderEnum;
 }
 
 const AppContainer = styled(Box)(({ theme }) => ({
@@ -33,7 +33,7 @@ const UploadMedia = ({
 
   useEffect(() => {
     mediaList.forEach((media: MediaItem) => {
-      if (media.type === MediaTypeEnum.VIDEO && !observers.current[media.id]) {
+      if (media.type === mediaType.VIDEO && !observers.current[media.id]) {
         const videoElement = document.getElementById(
           media.id
         ) as HTMLVideoElement | null;
@@ -72,7 +72,7 @@ const UploadMedia = ({
 
   return (
     <AppContainer>
-      {type === MediaUploaderType.UPLOAD && (
+      {type === MediaUploaderEnum.UPLOAD && (
         <>
           <Text variant="h4" content="Media Uploader" />
           <ShowMediaList
@@ -83,7 +83,7 @@ const UploadMedia = ({
           />
         </>
       )}
-      {type === MediaUploaderType.SELECT && mediaList.length !== 0 && (
+      {type === MediaUploaderEnum.SELECT && mediaList.length !== 0 && (
         <>
           <Text variant="h6" content="Preview" />
           <ShowMediaList
