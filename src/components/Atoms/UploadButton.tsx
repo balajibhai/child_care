@@ -9,7 +9,7 @@ interface UploadButtonProps {
   label: string;
 }
 
-const UploadButtons = styled(Box)(({ theme }) => ({
+const UploadButtonsStyle = styled(Box)(({ theme }) => ({
   position: "sticky",
   bottom: 0,
   backgroundColor: "blueviolet",
@@ -33,7 +33,7 @@ const UploadButton = ({
   label,
 }: UploadButtonProps) => {
   return (
-    <UploadButtons>
+    <UploadButtonsStyle>
       <label>
         {label}
         <input
@@ -43,7 +43,7 @@ const UploadButton = ({
           onChange={onChange}
         />
       </label>
-    </UploadButtons>
+    </UploadButtonsStyle>
   );
 };
 

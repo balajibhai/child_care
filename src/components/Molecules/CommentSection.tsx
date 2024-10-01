@@ -16,7 +16,7 @@ interface CommentData {
   time: JSX.Element;
 }
 
-const CommentBox = styled(Box)(({ theme }) => ({
+const CommentBoxStyle = styled(Box)(({ theme }) => ({
   marginTop: "10px",
 
   "& textarea": {
@@ -27,52 +27,52 @@ const CommentBox = styled(Box)(({ theme }) => ({
 
 const CommentSection = ({ mediaId, placeholder }: CommentSectionProps) => {
   const [displayText, setDisplaytext] = useState<{
-    [key: string]: CommentData[];
+    [mediaId: string]: CommentData[];
   }>({});
 
-  const [comments, setComments] = useState<{ [key: string]: string }>({});
+  const [comments, setComments] = useState<{ [mediaId: string]: string }>({});
 
-  const handleSendClick = (id: string) => {
-    setDisplaytext((prev) => {
-      const currentComments = prev[id];
-      const comment = comments[id];
+  const handleSendClick = (mediaId: string) => {
+    setDisplaytext((displayText) => {
+      const currentComments = displayText[mediaId];
+      const comment = comments[mediaId];
       const time = <TimeComponent />;
 
       // Check if there are existing comments for the given id
       if (currentComments) {
         // Add new comment to the existing array of comments
         return {
-          ...prev,
-          [id]: [...currentComments, { comment, time }],
+          ...displayText,
+          [mediaId]: [...currentComments, { comment, time }],
         };
       } else {
         // Initialize the comments array if none exist
         return {
-          ...prev,
-          [id]: [{ comment, time }],
+          ...displayText,
+          [mediaId]: [{ comment, time }],
         };
       }
     });
   };
 
-  const handleCommentChange = (id: string, comment: string) => {
-    setComments((prev) => ({
-      ...prev,
-      [id]: comment,
+  const onCommentChange = (mediaId: string, comment: string) => {
+    setComments((comments) => ({
+      ...comments,
+      [mediaId]: comment,
     }));
   };
 
   return (
     <>
-      <CommentBox>
+      <CommentBoxStyle>
         <Textarea
           value={comments[mediaId]}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            handleCommentChange(mediaId, e.target.value)
+            onCommentChange(mediaId, e.target.value)
           }
           placeholder={placeholder}
         />
-      </CommentBox>
+      </CommentBoxStyle>
       <Button
         onClick={() => handleSendClick(mediaId)}
         label={"Send"}

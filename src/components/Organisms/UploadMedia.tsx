@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
-import { Box, styled } from "@mui/material";
 import ShowMediaList from "../Molecules/ShowMediaList";
 import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
 
@@ -14,20 +13,17 @@ interface MediaItem {
 interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  handleMediaLoad: () => void;
+  onMediaLoad: () => void;
   type: MediaUploaderEnum;
+  showPreviewUpload: boolean;
 }
-
-const AppContainer = styled(Box)(({ theme }) => ({
-  fontFamily: "Arial, sans-serif",
-  padding: "20px",
-}));
 
 const UploadMedia = ({
   mediaListRef,
   mediaList,
-  handleMediaLoad,
+  onMediaLoad,
   type,
+  showPreviewUpload,
 }: UploadMediaProps) => {
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
 
@@ -71,30 +67,24 @@ const UploadMedia = ({
   }, [mediaList]);
 
   return (
-    <AppContainer>
+    <>
       {type === MediaUploaderEnum.UPLOAD && (
         <>
           <Text variant="h4" content="Media Uploader" />
-          <ShowMediaList
-            mediaListRef={mediaListRef}
-            mediaList={mediaList}
-            handleMediaLoad={handleMediaLoad}
-            type={type}
-          />
         </>
       )}
-      {type === MediaUploaderEnum.SELECT && mediaList.length !== 0 && (
+      {type === MediaUploaderEnum.SELECT && showPreviewUpload && (
         <>
           <Text variant="h6" content="Preview" />
-          <ShowMediaList
-            mediaListRef={mediaListRef}
-            mediaList={mediaList}
-            handleMediaLoad={handleMediaLoad}
-            type={type}
-          />
         </>
       )}
-    </AppContainer>
+      <ShowMediaList
+        mediaListRef={mediaListRef}
+        mediaList={mediaList}
+        onMediaLoad={onMediaLoad}
+        type={type}
+      />
+    </>
   );
 };
 

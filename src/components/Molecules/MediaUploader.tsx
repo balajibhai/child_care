@@ -14,7 +14,7 @@ interface MediaUploaderProps {
     type: mediaType;
     filename: string;
   };
-  handleMediaLoad: () => void;
+  onMediaLoad: () => void;
   type: MediaUploaderEnum;
 }
 
@@ -44,10 +44,10 @@ const MediaItemCss = {
 };
 
 const MediaUploader = (props: MediaUploaderProps) => {
-  const { media, type, handleMediaLoad } = props;
+  const { media, type, onMediaLoad } = props;
   const [isMediaClicked, setMediaClicked] = useState(false);
 
-  const handleMediaClick = (id: string) => {
+  const onMediaClick = () => {
     setMediaClicked(true);
   };
 
@@ -55,8 +55,8 @@ const MediaUploader = (props: MediaUploaderProps) => {
     <MediaItemStyle key={media.id} type={type}>
       <ShowUploaded
         media={media}
-        onLoad={handleMediaLoad}
-        onClick={() => handleMediaClick(media.id)}
+        onLoad={onMediaLoad}
+        onClick={() => onMediaClick()}
       />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
       {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (

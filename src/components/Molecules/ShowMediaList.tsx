@@ -12,14 +12,14 @@ interface ShowMediaListProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
   type: MediaUploaderEnum;
-  handleMediaLoad: () => void;
+  onMediaLoad: () => void;
 }
 
 interface MediaListProps {
   type: MediaUploaderEnum;
 }
 
-const MediaList = styled(Box)<MediaListProps>(({ theme, type }) => ({
+const MediaListStyle = styled(Box)<MediaListProps>(({ theme, type }) => ({
   maxHeight: type === MediaUploaderEnum.SELECT ? "250px" : "800px",
   overflowY: "auto",
   border: "1px solid #ccc",
@@ -29,19 +29,15 @@ const MediaList = styled(Box)<MediaListProps>(({ theme, type }) => ({
 const ShowMediaList = ({
   mediaListRef,
   mediaList,
-  handleMediaLoad,
+  onMediaLoad,
   type,
 }: ShowMediaListProps) => {
   return (
-    <MediaList ref={mediaListRef} type={type}>
+    <MediaListStyle ref={mediaListRef} type={type}>
       {mediaList.map((media) => (
-        <MediaUploader
-          media={media}
-          handleMediaLoad={handleMediaLoad}
-          type={type}
-        />
+        <MediaUploader media={media} onMediaLoad={onMediaLoad} type={type} />
       ))}
-    </MediaList>
+    </MediaListStyle>
   );
 };
 

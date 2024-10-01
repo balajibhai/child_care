@@ -24,17 +24,17 @@ const Home = () => {
   const [type, setType] = useState<MediaUploaderEnum>(MediaUploaderEnum.SELECT);
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewList, setPreviewList] = useState<MediaItem[]>([]);
-  const [showUploadButton, setShowUploadButton] = useState(false);
+  const [showPreviewUpload, setShowPreviewUpload] = useState(false);
 
   useEffect(() => {
     if (previewList.length > 0) {
-      setShowUploadButton(true);
+      setShowPreviewUpload(true);
     } else {
-      setShowUploadButton(false);
+      setShowPreviewUpload(false);
     }
   }, [previewList.length]);
 
-  const handleMediaLoad = () => {
+  const onMediaLoad = () => {
     setLoadedMediaCount((LoadedMediaCount) => {
       const newCount = LoadedMediaCount + 1;
       if (newCount === newMediaCount) {
@@ -55,7 +55,7 @@ const Home = () => {
     }
   };
 
-  const handlePreviewUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     const newMedia = files.map((file) => {
       return {
@@ -76,7 +76,7 @@ const Home = () => {
   };
 
   const onUpload = () => {
-    setMediaList((prev) => [...prev, ...previewList]);
+    setMediaList((mediaList) => [...mediaList, ...previewList]);
     setType(MediaUploaderEnum.UPLOAD);
     setPreviewList([]);
   };
@@ -87,13 +87,14 @@ const Home = () => {
       <UploadMedia
         mediaListRef={mediaListRef}
         mediaList={type === MediaUploaderEnum.UPLOAD ? mediaList : previewList}
-        handleMediaLoad={handleMediaLoad}
+        onMediaLoad={onMediaLoad}
         type={type}
+        showPreviewUpload={showPreviewUpload}
       />
       <UploadSection
-        handleUpload={handlePreviewUpload}
+        onPreview={onPreview}
         handleCancel={handleCancel}
-        showUploadButton={showUploadButton}
+        showPreviewUpload={showPreviewUpload}
         onUpload={onUpload}
       />
       <Calendar />
