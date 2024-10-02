@@ -27,6 +27,11 @@ interface MediaSizeProps {
   type: MediaUploaderEnum;
 }
 
+const MediaItemCss = {
+  SELECT: { width: "200px", maxWidth: "" },
+  UPLOAD: { width: "auto", maxWidth: "100%" },
+};
+
 const MediaItemStyle = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   marginBottom: "20px",
   position: "relative",
@@ -38,11 +43,6 @@ const MediaItemStyle = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
   },
 }));
 
-const MediaItemCss = {
-  SELECT: { width: "200px", maxWidth: "" },
-  UPLOAD: { width: "auto", maxWidth: "100%" },
-};
-
 const MediaUploader = (props: MediaUploaderProps) => {
   const { media, type, onMediaLoad } = props;
   const [isMediaClicked, setMediaClicked] = useState(false);
@@ -53,11 +53,7 @@ const MediaUploader = (props: MediaUploaderProps) => {
 
   return (
     <MediaItemStyle key={media.id} type={type}>
-      <ShowUploaded
-        media={media}
-        onLoad={onMediaLoad}
-        onClick={() => onMediaClick()}
-      />
+      <ShowUploaded media={media} onLoad={onMediaLoad} onClick={onMediaClick} />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
       {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
         <CommentSection />

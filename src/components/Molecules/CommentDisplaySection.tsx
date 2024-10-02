@@ -18,7 +18,7 @@ const CommentDisplay = ({ displayText }: CommentDisplayProps) => {
       {displayText.map((element, index) => {
         return (
           <CommentDisplayStyle key={index}>
-            <div>{element.comment}</div>
+            {element.comment}
             <div>
               <TimeComponent time={element.time} />
             </div>

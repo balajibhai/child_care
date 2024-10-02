@@ -2,7 +2,6 @@ import { Box, styled } from "@mui/material";
 import React from "react";
 
 interface UploadButtonProps {
-  // Define the type of handleUpload function
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   accept: string;
   multiple: boolean;

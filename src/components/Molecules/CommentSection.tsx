@@ -6,8 +6,6 @@ import { Box, styled } from "@mui/material";
 import { CommentData } from "../../types/CommentTypes";
 import { getTimeString } from "./TimeComponent";
 
-// Define CommentData type where the key is a comment and the value is a JSX element
-
 const CommentBoxStyle = styled(Box)(({ theme }) => ({
   marginTop: "10px",
 
@@ -43,11 +41,7 @@ const CommentSection = () => {
           placeholder="Add a comment ..."
         />
       </CommentBoxStyle>
-      <Button
-        onClick={() => handleSendClick()}
-        label={"Send"}
-        disabled={!newComment}
-      />
+      <Button onClick={handleSendClick} label={"Send"} disabled={!newComment} />
       {displayText.length > 0 && <CommentDisplay displayText={displayText} />}
     </>
   );

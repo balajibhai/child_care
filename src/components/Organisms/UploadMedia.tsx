@@ -69,14 +69,10 @@ const UploadMedia = ({
   return (
     <>
       {type === MediaUploaderEnum.UPLOAD && (
-        <>
-          <Text variant="h4" content="Media Uploader" />
-        </>
+        <Text variant="h4" content="Media Uploader" />
       )}
       {type === MediaUploaderEnum.SELECT && showPreviewUpload && (
-        <>
-          <Text variant="h6" content="Preview" />
-        </>
+        <Text variant="h6" content="Preview" />
       )}
       <ShowMediaList
         mediaListRef={mediaListRef}

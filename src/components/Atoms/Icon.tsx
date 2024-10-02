@@ -26,7 +26,7 @@ const ICON_MAP = {
 
 const Icon = ({ edge, color, sx, icon, onClick }: iconProps) => {
   const Component = ICON_MAP[icon];
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = () => {
     onClick && onClick();
   };
   return (

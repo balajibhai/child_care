@@ -3,7 +3,6 @@ import UploadButton from "../Atoms/UploadButton";
 import Button from "../Atoms/Button";
 
 interface UploadButtonsProps {
-  // Define the type of handleUpload function
   onPreview: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleCancel: () => void;
   showPreviewUpload: boolean;

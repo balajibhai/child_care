@@ -14,14 +14,12 @@ const UploadSection = ({
   showPreviewUpload,
 }: UploadSectionProps) => {
   return (
-    <>
-      <UploadButtons
-        onPreview={onPreview}
-        handleCancel={handleCancel}
-        showPreviewUpload={showPreviewUpload}
-        onUpload={onUpload}
-      />
-    </>
+    <UploadButtons
+      onPreview={onPreview}
+      handleCancel={handleCancel}
+      showPreviewUpload={showPreviewUpload}
+      onUpload={onUpload}
+    />
   );
 };
 
