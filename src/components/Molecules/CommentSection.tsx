@@ -25,6 +25,7 @@ const CommentSection = () => {
   const handleSendClick = () => {
     const time = getTimeString();
     setDisplaytext([...displayText, { comment: newComment, time }]);
+    setNewComment("");
   };
 
   const onCommentChange = (comment: string) => {
