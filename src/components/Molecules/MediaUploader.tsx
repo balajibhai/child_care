@@ -2,30 +2,12 @@ import { useState } from "react";
 import CommentSection from "./CommentSection";
 import { Box, styled } from "@mui/material";
 import ShowUploaded from "./ShowUploaded";
-
-export enum mediaType {
-  IMAGE = "image",
-  VIDEO = "video",
-}
-interface MediaUploaderProps {
-  media: {
-    id: string;
-    file: File;
-    type: mediaType;
-    filename: string;
-  };
-  onMediaLoad: () => void;
-  type: MediaUploaderEnum;
-}
-
-export enum MediaUploaderEnum {
-  SELECT = "SELECT",
-  UPLOAD = "UPLOAD",
-}
-
-interface MediaSizeProps {
-  type: MediaUploaderEnum;
-}
+import {
+  MediaSizeProps,
+  MediaUploaderEnum,
+  MediaUploaderProps,
+} from "../../types/ComponentTypes";
+import { PreviewMedia } from "./PreviewMedia";
 
 const MediaItemCss = {
   SELECT: { width: "200px", maxWidth: "" },
@@ -53,7 +35,14 @@ const MediaUploader = (props: MediaUploaderProps) => {
 
   return (
     <MediaItemStyle key={media.id} type={type}>
-      <ShowUploaded media={media} onLoad={onMediaLoad} onClick={onMediaClick} />
+      {type === MediaUploaderEnum.SELECT && <PreviewMedia {...props} />}
+      {type === MediaUploaderEnum.UPLOAD && (
+        <ShowUploaded
+          media={media}
+          onLoad={onMediaLoad}
+          onClick={onMediaClick}
+        />
+      )}
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
       {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
         <CommentSection />

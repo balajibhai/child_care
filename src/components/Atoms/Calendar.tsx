@@ -2,21 +2,32 @@ import { useState } from "react";
 import { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-const Calendar = () => {
+export type CalendarProps = {
+  onDateChange: (date: string | null) => void;
+};
+const Calendar = (props: CalendarProps) => {
+  const { onDateChange } = props;
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
-  const handleDateChange = (newDate: Dayjs) => {
+  const handleDateChange = (newDate: Dayjs | null) => {
     setSelectedDate(newDate);
-    const formattedDate = newDate ? newDate.format("YYYY-MM-DD") : "";
-    console.log("Formatted date:", formattedDate);
+    if (newDate != null) {
+      const formattedDate = newDate
+        ? newDate.format("YYYY-MM-DDTHH:mm:ss")
+        : "";
+      onDateChange(formattedDate);
+    } else {
+      onDateChange(null);
+    }
+
     // You can use formattedDate as needed
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar value={selectedDate} onChange={handleDateChange} />
+      <DateTimePicker value={selectedDate} onChange={handleDateChange} />
     </LocalizationProvider>
   );
 };

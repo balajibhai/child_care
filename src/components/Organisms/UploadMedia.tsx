@@ -1,18 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
 import ShowMediaList from "../Molecules/ShowMediaList";
-import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
-
-interface MediaItem {
-  id: string;
-  file: File;
-  type: mediaType;
-  filename: string;
-}
+import {
+  MediaItem,
+  mediaType,
+  MediaUploaderEnum,
+} from "../../types/ComponentTypes";
 
 interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
+  setMediaList: (list: MediaItem[]) => void;
   onMediaLoad: () => void;
   type: MediaUploaderEnum;
   showPreviewUpload: boolean;
@@ -21,6 +19,7 @@ interface UploadMediaProps {
 const UploadMedia = ({
   mediaListRef,
   mediaList,
+  setMediaList,
   onMediaLoad,
   type,
   showPreviewUpload,
@@ -77,6 +76,7 @@ const UploadMedia = ({
       <ShowMediaList
         mediaListRef={mediaListRef}
         mediaList={mediaList}
+        setMediaList={setMediaList}
         onMediaLoad={onMediaLoad}
         type={type}
       />

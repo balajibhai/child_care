@@ -1,4 +1,4 @@
-import { mediaType } from "../components/Molecules/MediaUploader";
+import { mediaType } from "./ComponentTypes";
 
 export type MediaType = {
   id?: string;

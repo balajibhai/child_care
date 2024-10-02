@@ -2,16 +2,7 @@ import { useRef, useState } from "react";
 import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
-import Calendar from "../Atoms/Calendar";
-import Time from "../Atoms/Time";
-import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
-
-interface MediaItem {
-  id: string;
-  file: File;
-  type: mediaType;
-  filename: string;
-}
+import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
 
 const Home = () => {
   const [loadedMediaCount, setLoadedMediaCount] = useState(0);
@@ -42,9 +33,9 @@ const Home = () => {
     }
   };
 
-  const onPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    const newMedia = files.map((file) => {
+  const onPreview = (files: FileList | null) => {
+    const uploadedFiles = Array.from(files || []);
+    const newMedia = uploadedFiles.map((file) => {
       return {
         id: file.name,
         file: file,
@@ -76,18 +67,16 @@ const Home = () => {
         mediaList={
           mediaState === MediaUploaderEnum.UPLOAD ? mediaList : previewList
         }
+        setMediaList={setMediaList}
         onMediaLoad={onMediaLoad}
         type={mediaState}
         showPreviewUpload={previewList.length > 0}
       />
       <UploadSection
         onPreview={onPreview}
-        handleCancel={handleCancel}
-        showPreviewUpload={previewList.length > 0}
         onUpload={onUpload}
+        handleCancel={handleCancel}
       />
-      <Calendar />
-      <Time />
     </>
   );
 };

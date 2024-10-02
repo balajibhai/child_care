@@ -1,16 +1,11 @@
 import { Box, styled } from "@mui/material";
-import MediaUploader, { mediaType, MediaUploaderEnum } from "./MediaUploader";
-
-interface MediaItem {
-  id: string;
-  file: File;
-  type: mediaType;
-  filename: string;
-}
+import MediaUploader from "./MediaUploader";
+import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
 
 interface ShowMediaListProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
+  setMediaList: (list: MediaItem[]) => void;
   type: MediaUploaderEnum;
   onMediaLoad: () => void;
 }
@@ -29,13 +24,28 @@ const MediaListStyle = styled(Box)<MediaListProps>(({ theme, type }) => ({
 const ShowMediaList = ({
   mediaListRef,
   mediaList,
+  setMediaList,
   onMediaLoad,
   type,
 }: ShowMediaListProps) => {
+  const onMediaChange = (updatedMedia: MediaItem) => {
+    const mediaIndex = mediaList
+      .map((media) => media.id)
+      .indexOf(updatedMedia.id);
+    if (mediaIndex === -1) throw new Error("media not found");
+    mediaList[mediaIndex] = updatedMedia;
+    setMediaList([...mediaList]);
+  };
   return (
     <MediaListStyle ref={mediaListRef} type={type}>
       {mediaList.map((media) => (
-        <MediaUploader media={media} onMediaLoad={onMediaLoad} type={type} />
+        <MediaUploader
+          key={media.id}
+          media={media}
+          onMediaLoad={onMediaLoad}
+          type={type}
+          onMediaChange={onMediaChange}
+        />
       ))}
     </MediaListStyle>
   );

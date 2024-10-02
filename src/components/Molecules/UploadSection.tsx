@@ -1,24 +1,21 @@
 import UploadButtons from "./UploadButtons";
 
 interface UploadSectionProps {
-  onPreview: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onPreview: (files: FileList | null) => void;
+  onUpload: (files: FileList | null) => void;
   handleCancel: () => void;
-  showPreviewUpload: boolean;
-  onUpload: () => void;
 }
 
 const UploadSection = ({
   onPreview,
-  handleCancel,
   onUpload,
-  showPreviewUpload,
+  handleCancel,
 }: UploadSectionProps) => {
   return (
     <UploadButtons
-      onPreview={onPreview}
-      handleCancel={handleCancel}
-      showPreviewUpload={showPreviewUpload}
+      onFileSelect={onPreview}
       onUpload={onUpload}
+      onCancel={handleCancel}
     />
   );
 };

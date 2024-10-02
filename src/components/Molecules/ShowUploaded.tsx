@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "../Atoms/Image";
 import Video from "../Atoms/Video";
-import { mediaType } from "./MediaUploader";
+import { mediaType } from "../../types/ComponentTypes";
 
 interface ShowUploadedProps {
   media: {
@@ -11,11 +11,12 @@ interface ShowUploadedProps {
     filename: string;
   };
   onLoad: () => void;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-const ShowUploaded = ({ media, onLoad, onClick }: ShowUploadedProps) => {
+const ShowUploaded = (props: ShowUploadedProps) => {
   const [mediaUrl, setMediaUrl] = useState("");
+  const { onClick = () => {}, media, onLoad } = props;
 
   useEffect(() => {
     // Generate a blob URL for the media file
