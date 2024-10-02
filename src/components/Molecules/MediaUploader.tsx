@@ -60,7 +60,7 @@ const MediaUploader = (props: MediaUploaderProps) => {
       />
       {/* Show comment box if media is clicked or a comment exists (non-empty) */}
       {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
-        <CommentSection mediaId={media.id} placeholder="Add a comment..." />
+        <CommentSection />
       )}
     </MediaItemStyle>
   );

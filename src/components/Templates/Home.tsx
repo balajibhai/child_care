@@ -1,14 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
 import Calendar from "../Atoms/Calendar";
 import Time from "../Atoms/Time";
 import { mediaType, MediaUploaderEnum } from "../Molecules/MediaUploader";
-
-interface fileProps {
-  type: string;
-}
 
 interface MediaItem {
   id: string;
@@ -18,39 +14,30 @@ interface MediaItem {
 }
 
 const Home = () => {
-  const [LoadedMediaCount, setLoadedMediaCount] = useState(0);
+  const [loadedMediaCount, setLoadedMediaCount] = useState(0);
   const [newMediaCount, setNewMediaCount] = useState(0);
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
-  const [type, setType] = useState<MediaUploaderEnum>(MediaUploaderEnum.SELECT);
+  const [mediaState, setMediaState] = useState<MediaUploaderEnum>(
+    MediaUploaderEnum.SELECT
+  );
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewList, setPreviewList] = useState<MediaItem[]>([]);
-  const [showPreviewUpload, setShowPreviewUpload] = useState(false);
-
-  useEffect(() => {
-    if (previewList.length > 0) {
-      setShowPreviewUpload(true);
-    } else {
-      setShowPreviewUpload(false);
-    }
-  }, [previewList.length]);
 
   const onMediaLoad = () => {
-    setLoadedMediaCount((LoadedMediaCount) => {
-      const newCount = LoadedMediaCount + 1;
-      if (newCount === newMediaCount) {
-        // All new media items have loaded
-        if (mediaListRef.current) {
-          mediaListRef.current.scrollTop = mediaListRef.current.scrollHeight;
-        }
+    const newCount = loadedMediaCount + 1;
+    if (newCount === newMediaCount) {
+      // All new media items have loaded
+      if (mediaListRef.current) {
+        mediaListRef.current.scrollTop = mediaListRef.current.scrollHeight;
       }
-      return newCount;
-    });
+    }
+    setLoadedMediaCount(newCount);
   };
 
-  const getType = (file: fileProps) => {
-    if (file.type.startsWith("image/")) {
+  const getType = (fileType: string) => {
+    if (fileType.startsWith("image/")) {
       return "image";
-    } else if (file.type.startsWith("video/")) {
+    } else if (fileType.startsWith("video/")) {
       return "video";
     }
   };
@@ -61,14 +48,14 @@ const Home = () => {
       return {
         id: file.name,
         file: file,
-        type: getType(file),
+        type: getType(file.type),
         filename: file.name, // Add filename property
       } as MediaItem;
     });
     setNewMediaCount(newMedia.length);
     setLoadedMediaCount(0);
-    setPreviewList((prev) => [...prev, ...newMedia]);
-    setType(MediaUploaderEnum.SELECT);
+    setPreviewList([...previewList, ...newMedia]);
+    setMediaState(MediaUploaderEnum.SELECT);
   };
 
   const handleCancel = () => {
@@ -76,8 +63,8 @@ const Home = () => {
   };
 
   const onUpload = () => {
-    setMediaList((mediaList) => [...mediaList, ...previewList]);
-    setType(MediaUploaderEnum.UPLOAD);
+    setMediaList([...mediaList, ...previewList]);
+    setMediaState(MediaUploaderEnum.UPLOAD);
     setPreviewList([]);
   };
 
@@ -86,15 +73,17 @@ const Home = () => {
       <Header />
       <UploadMedia
         mediaListRef={mediaListRef}
-        mediaList={type === MediaUploaderEnum.UPLOAD ? mediaList : previewList}
+        mediaList={
+          mediaState === MediaUploaderEnum.UPLOAD ? mediaList : previewList
+        }
         onMediaLoad={onMediaLoad}
-        type={type}
-        showPreviewUpload={showPreviewUpload}
+        type={mediaState}
+        showPreviewUpload={previewList.length > 0}
       />
       <UploadSection
         onPreview={onPreview}
         handleCancel={handleCancel}
-        showPreviewUpload={showPreviewUpload}
+        showPreviewUpload={previewList.length > 0}
         onUpload={onUpload}
       />
       <Calendar />
