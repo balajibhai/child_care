@@ -67,7 +67,7 @@ const Home = () => {
         mediaList={
           mediaState === MediaUploaderEnum.UPLOAD ? mediaList : previewList
         }
-        setMediaList={setMediaList}
+        setPreviewList={setPreviewList}
         onMediaLoad={onMediaLoad}
         type={mediaState}
         showPreviewUpload={previewList.length > 0}

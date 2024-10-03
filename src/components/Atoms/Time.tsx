@@ -12,7 +12,6 @@ const Time: React.FC = () => {
 
     // Format the time if it's not null
     const formattedTime = newTime ? newTime.format("HH:mm") : "";
-    console.log("Selected time:", formattedTime);
 
     // You can perform additional actions with formattedTime here
   };

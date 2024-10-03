@@ -5,7 +5,7 @@ import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
 interface ShowMediaListProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  setMediaList: (list: MediaItem[]) => void;
+  setPreviewList: (list: MediaItem[]) => void;
   type: MediaUploaderEnum;
   onMediaLoad: () => void;
 }
@@ -24,7 +24,7 @@ const MediaListStyle = styled(Box)<MediaListProps>(({ theme, type }) => ({
 const ShowMediaList = ({
   mediaListRef,
   mediaList,
-  setMediaList,
+  setPreviewList,
   onMediaLoad,
   type,
 }: ShowMediaListProps) => {
@@ -34,7 +34,7 @@ const ShowMediaList = ({
       .indexOf(updatedMedia.id);
     if (mediaIndex === -1) throw new Error("media not found");
     mediaList[mediaIndex] = updatedMedia;
-    setMediaList([...mediaList]);
+    setPreviewList([...mediaList]);
   };
   return (
     <MediaListStyle ref={mediaListRef} type={type}>

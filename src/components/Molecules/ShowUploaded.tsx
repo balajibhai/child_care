@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import Image from "../Atoms/Image";
 import Video from "../Atoms/Video";
-import { mediaType } from "../../types/ComponentTypes";
+import { MediaItem, mediaType } from "../../types/ComponentTypes";
 
 interface ShowUploadedProps {
-  media: {
-    id: string;
-    file: File;
-    type: mediaType;
-    filename: string;
-  };
+  media: MediaItem;
   onLoad: () => void;
   onClick?: () => void;
 }
@@ -42,6 +37,7 @@ const ShowUploaded = (props: ShowUploadedProps) => {
         )}
       </div>
       <div>{media.filename}</div>
+      <div>{media.time}</div>
     </>
   );
 };

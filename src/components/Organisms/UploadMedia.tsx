@@ -10,7 +10,7 @@ import {
 interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  setMediaList: (list: MediaItem[]) => void;
+  setPreviewList: (list: MediaItem[]) => void;
   onMediaLoad: () => void;
   type: MediaUploaderEnum;
   showPreviewUpload: boolean;
@@ -19,7 +19,7 @@ interface UploadMediaProps {
 const UploadMedia = ({
   mediaListRef,
   mediaList,
-  setMediaList,
+  setPreviewList,
   onMediaLoad,
   type,
   showPreviewUpload,
@@ -76,7 +76,7 @@ const UploadMedia = ({
       <ShowMediaList
         mediaListRef={mediaListRef}
         mediaList={mediaList}
-        setMediaList={setMediaList}
+        setPreviewList={setPreviewList}
         onMediaLoad={onMediaLoad}
         type={type}
       />
