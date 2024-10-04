@@ -3,30 +3,36 @@ import CommentSection from "./CommentSection";
 import { Box, styled } from "@mui/material";
 import ShowUploaded from "./ShowUploaded";
 import {
-  MediaSizeProps,
   MediaUploaderEnum,
   MediaUploaderProps,
+  MediaView,
 } from "../../types/ComponentTypes";
 import { PreviewMedia } from "./PreviewMedia";
 
-const MediaItemCss = {
-  SELECT: { width: "200px", maxWidth: "" },
-  UPLOAD: { width: "auto", maxWidth: "100%" },
-};
-
-const MediaItemStyle = styled(Box)<MediaSizeProps>(({ theme, type }) => ({
+const PreviewMediaStyle = styled(Box)(({ theme }) => ({
   marginBottom: "20px",
   position: "relative",
 
   "& img, & video": {
-    width: MediaItemCss[type].width,
-    maxWidth: MediaItemCss[type].maxWidth,
+    width: "200px",
+    maxWidth: "",
+    cursor: "pointer",
+  },
+}));
+
+const UploadedMediaStyle = styled(Box)(({ theme }) => ({
+  marginBottom: "20px",
+  position: "relative",
+
+  "& img, & video": {
+    width: "auto",
+    maxWidth: "100%",
     cursor: "pointer",
   },
 }));
 
 const MediaUploader = (props: MediaUploaderProps) => {
-  const { media, type, onMediaLoad } = props;
+  const { media, type, onMediaLoad, mediaView } = props;
   const [isMediaClicked, setMediaClicked] = useState(false);
 
   const onMediaClick = () => {
@@ -34,20 +40,24 @@ const MediaUploader = (props: MediaUploaderProps) => {
   };
 
   return (
-    <MediaItemStyle key={media.id} type={type}>
-      {type === MediaUploaderEnum.SELECT && <PreviewMedia {...props} />}
-      {type === MediaUploaderEnum.UPLOAD && (
-        <ShowUploaded
-          media={media}
-          onLoad={onMediaLoad}
-          onClick={onMediaClick}
-        />
-      )}
-      {/* Show comment box if media is clicked or a comment exists (non-empty) */}
-      {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
-        <CommentSection />
-      )}
-    </MediaItemStyle>
+    <>
+      <PreviewMediaStyle key={media.id}>
+        {mediaView === MediaView.PREVIEW && <PreviewMedia {...props} />}
+      </PreviewMediaStyle>
+      <UploadedMediaStyle key={media.id}>
+        {mediaView === MediaView.UPLOADED && (
+          <ShowUploaded
+            media={media}
+            onLoad={onMediaLoad}
+            onClick={onMediaClick}
+          />
+        )}
+        {/* Show comment box if media is clicked or a comment exists (non-empty) */}
+        {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
+          <CommentSection />
+        )}
+      </UploadedMediaStyle>
+    </>
   );
 };
 

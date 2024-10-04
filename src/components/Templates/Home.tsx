@@ -4,6 +4,16 @@ import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
 import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
 
+/**
+ *
+ * 1) Preview section should always be displayed even when upload is clicked
+ * 2) When upload is clicked, preview should be a separate section
+ * 3) We need two different boxes, one for preview and the other for media uploader *
+ * 4) So pass medialist for mediauploader and previewlist for preview as props
+ *  Then, media section should be displayed separately and should never be hidden from there onwards
+ *
+ */
+
 const Home = () => {
   const [loadedMediaCount, setLoadedMediaCount] = useState(0);
   const [newMediaCount, setNewMediaCount] = useState(0);
@@ -12,7 +22,7 @@ const Home = () => {
     MediaUploaderEnum.SELECT
   );
   const mediaListRef = useRef<HTMLDivElement>(null);
-  const [previewList, setPreviewList] = useState<MediaItem[]>([]);
+  const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
 
   const onMediaLoad = () => {
     const newCount = loadedMediaCount + 1;
@@ -45,18 +55,18 @@ const Home = () => {
     });
     setNewMediaCount(newMedia.length);
     setLoadedMediaCount(0);
-    setPreviewList([...previewList, ...newMedia]);
+    setPreviewMediaList([...previewMediaList, ...newMedia]);
     setMediaState(MediaUploaderEnum.SELECT);
   };
 
   const handleCancel = () => {
-    setPreviewList([]);
+    setPreviewMediaList([]);
   };
 
   const onUpload = () => {
-    setMediaList([...mediaList, ...previewList]);
+    setMediaList([...mediaList, ...previewMediaList]);
     setMediaState(MediaUploaderEnum.UPLOAD);
-    setPreviewList([]);
+    setPreviewMediaList([]);
   };
 
   return (
@@ -64,13 +74,11 @@ const Home = () => {
       <Header />
       <UploadMedia
         mediaListRef={mediaListRef}
-        mediaList={
-          mediaState === MediaUploaderEnum.UPLOAD ? mediaList : previewList
-        }
-        setPreviewList={setPreviewList}
+        mediaList={mediaList}
+        previewMediaList={previewMediaList}
+        setPreviewMediaList={setPreviewMediaList}
         onMediaLoad={onMediaLoad}
         type={mediaState}
-        showPreviewUpload={previewList.length > 0}
       />
       <UploadSection
         onPreview={onPreview}

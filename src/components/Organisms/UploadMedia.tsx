@@ -5,25 +5,27 @@ import {
   MediaItem,
   mediaType,
   MediaUploaderEnum,
+  MediaView,
 } from "../../types/ComponentTypes";
 
 interface UploadMediaProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  setPreviewList: (list: MediaItem[]) => void;
+  previewMediaList: MediaItem[];
+  setPreviewMediaList: (list: MediaItem[]) => void;
   onMediaLoad: () => void;
   type: MediaUploaderEnum;
-  showPreviewUpload: boolean;
 }
 
-const UploadMedia = ({
-  mediaListRef,
-  mediaList,
-  setPreviewList,
-  onMediaLoad,
-  type,
-  showPreviewUpload,
-}: UploadMediaProps) => {
+const UploadMedia = (props: UploadMediaProps) => {
+  const {
+    mediaListRef,
+    mediaList,
+    previewMediaList,
+    setPreviewMediaList,
+    onMediaLoad,
+    type,
+  } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
 
   useEffect(() => {
@@ -67,18 +69,27 @@ const UploadMedia = ({
 
   return (
     <>
-      {type === MediaUploaderEnum.UPLOAD && (
-        <Text variant="h4" content="Media Uploader" />
+      {mediaList.length > 0 && (
+        <>
+          <Text variant="h4" content="Media Uploader" />
+          <ShowMediaList
+            mediaListRef={mediaListRef}
+            mediaList={mediaList}
+            setPreviewMediaList={setPreviewMediaList}
+            onMediaLoad={onMediaLoad}
+            type={type}
+            mediaView={MediaView.UPLOADED}
+          />
+        </>
       )}
-      {type === MediaUploaderEnum.SELECT && showPreviewUpload && (
-        <Text variant="h6" content="Preview" />
-      )}
+      <Text variant="h6" content="Preview" />
       <ShowMediaList
         mediaListRef={mediaListRef}
-        mediaList={mediaList}
-        setPreviewList={setPreviewList}
+        mediaList={previewMediaList}
+        setPreviewMediaList={setPreviewMediaList}
         onMediaLoad={onMediaLoad}
         type={type}
+        mediaView={MediaView.PREVIEW}
       />
     </>
   );

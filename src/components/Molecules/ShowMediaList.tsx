@@ -1,13 +1,18 @@
 import { Box, styled } from "@mui/material";
 import MediaUploader from "./MediaUploader";
-import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
+import {
+  MediaItem,
+  MediaUploaderEnum,
+  MediaView,
+} from "../../types/ComponentTypes";
 
 interface ShowMediaListProps {
   mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  setPreviewList: (list: MediaItem[]) => void;
+  setPreviewMediaList: (list: MediaItem[]) => void;
   type: MediaUploaderEnum;
   onMediaLoad: () => void;
+  mediaView: MediaView;
 }
 
 interface MediaListProps {
@@ -24,9 +29,10 @@ const MediaListStyle = styled(Box)<MediaListProps>(({ theme, type }) => ({
 const ShowMediaList = ({
   mediaListRef,
   mediaList,
-  setPreviewList,
+  setPreviewMediaList,
   onMediaLoad,
   type,
+  mediaView,
 }: ShowMediaListProps) => {
   const onMediaChange = (updatedMedia: MediaItem) => {
     const mediaIndex = mediaList
@@ -34,7 +40,7 @@ const ShowMediaList = ({
       .indexOf(updatedMedia.id);
     if (mediaIndex === -1) throw new Error("media not found");
     mediaList[mediaIndex] = updatedMedia;
-    setPreviewList([...mediaList]);
+    setPreviewMediaList([...mediaList]);
   };
   return (
     <MediaListStyle ref={mediaListRef} type={type}>
@@ -45,6 +51,7 @@ const ShowMediaList = ({
           onMediaLoad={onMediaLoad}
           type={type}
           onMediaChange={onMediaChange}
+          mediaView={mediaView}
         />
       ))}
     </MediaListStyle>
