@@ -4,6 +4,7 @@ import {
   MediaItem,
   MediaUploaderEnum,
   MediaView,
+  SettingsConfigType,
 } from "../../types/ComponentTypes";
 
 interface ShowMediaListProps {
@@ -13,6 +14,7 @@ interface ShowMediaListProps {
   type: MediaUploaderEnum;
   onMediaLoad: () => void;
   mediaView: MediaView;
+  settingsConfigValue: SettingsConfigType;
 }
 
 interface MediaListProps {
@@ -33,6 +35,7 @@ const ShowMediaList = ({
   onMediaLoad,
   type,
   mediaView,
+  settingsConfigValue,
 }: ShowMediaListProps) => {
   const onMediaChange = (updatedMedia: MediaItem) => {
     const mediaIndex = mediaList
@@ -52,6 +55,7 @@ const ShowMediaList = ({
           type={type}
           onMediaChange={onMediaChange}
           mediaView={mediaView}
+          settingsConfigValue={settingsConfigValue}
         />
       ))}
     </MediaListStyle>

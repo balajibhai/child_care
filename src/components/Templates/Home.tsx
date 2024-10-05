@@ -2,7 +2,11 @@ import { useRef, useState } from "react";
 import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
-import { MediaItem, MediaUploaderEnum } from "../../types/ComponentTypes";
+import {
+  MediaItem,
+  MediaUploaderEnum,
+  SettingsConfigType,
+} from "../../types/ComponentTypes";
 
 /**
  *
@@ -23,6 +27,12 @@ const Home = () => {
   );
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
+  const [settingsConfigValue, setSettingsConfigValue] =
+    useState<SettingsConfigType>({
+      PREVIEW: { fontSize: "" },
+      MEDIA: { fontSize: "" },
+      COMMENTS: { fontSize: "" },
+    });
 
   const onMediaLoad = () => {
     const newCount = loadedMediaCount + 1;
@@ -69,9 +79,16 @@ const Home = () => {
     setPreviewMediaList([]);
   };
 
+  const settingsConfig = (paneConfig: SettingsConfigType) => {
+    setSettingsConfigValue(paneConfig);
+  };
+
   return (
     <>
-      <Header />
+      <Header
+        settingsConfig={settingsConfig}
+        settingsConfigValue={settingsConfigValue}
+      />
       <UploadMedia
         mediaListRef={mediaListRef}
         mediaList={mediaList}
@@ -79,6 +96,7 @@ const Home = () => {
         setPreviewMediaList={setPreviewMediaList}
         onMediaLoad={onMediaLoad}
         type={mediaState}
+        settingsConfigValue={settingsConfigValue}
       />
       <UploadSection
         onPreview={onPreview}

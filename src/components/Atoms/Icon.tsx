@@ -1,7 +1,7 @@
-import React from "react";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 interface iconProps {
   edge?: "start" | "end" | undefined;
@@ -22,6 +22,7 @@ interface iconProps {
 const ICON_MAP = {
   Menu: MenuIcon,
   Account: AccountCircleIcon,
+  Settings: SettingsIcon,
 };
 
 const Icon = ({ edge, color, sx, icon, onClick }: iconProps) => {

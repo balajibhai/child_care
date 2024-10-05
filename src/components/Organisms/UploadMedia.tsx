@@ -6,6 +6,7 @@ import {
   mediaType,
   MediaUploaderEnum,
   MediaView,
+  SettingsConfigType,
 } from "../../types/ComponentTypes";
 
 interface UploadMediaProps {
@@ -15,6 +16,7 @@ interface UploadMediaProps {
   setPreviewMediaList: (list: MediaItem[]) => void;
   onMediaLoad: () => void;
   type: MediaUploaderEnum;
+  settingsConfigValue: SettingsConfigType;
 }
 
 const UploadMedia = (props: UploadMediaProps) => {
@@ -25,6 +27,7 @@ const UploadMedia = (props: UploadMediaProps) => {
     setPreviewMediaList,
     onMediaLoad,
     type,
+    settingsConfigValue,
   } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
 
@@ -71,7 +74,11 @@ const UploadMedia = (props: UploadMediaProps) => {
     <>
       {mediaList.length > 0 && (
         <>
-          <Text variant="h4" content="Media Uploader" />
+          <Text
+            variant="h4"
+            content="Media Uploader"
+            sx={settingsConfigValue.MEDIA}
+          />
           <ShowMediaList
             mediaListRef={mediaListRef}
             mediaList={mediaList}
@@ -79,10 +86,11 @@ const UploadMedia = (props: UploadMediaProps) => {
             onMediaLoad={onMediaLoad}
             type={type}
             mediaView={MediaView.UPLOADED}
+            settingsConfigValue={settingsConfigValue}
           />
         </>
       )}
-      <Text variant="h6" content="Preview" />
+      <Text variant="h6" content="Preview" sx={settingsConfigValue.PREVIEW} />
       <ShowMediaList
         mediaListRef={mediaListRef}
         mediaList={previewMediaList}
@@ -90,6 +98,7 @@ const UploadMedia = (props: UploadMediaProps) => {
         onMediaLoad={onMediaLoad}
         type={type}
         mediaView={MediaView.PREVIEW}
+        settingsConfigValue={settingsConfigValue}
       />
     </>
   );
