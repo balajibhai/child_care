@@ -36,18 +36,24 @@ export enum PaneType {
   COMMENTS = "COMMENTS",
 }
 
-export type configuredValue = {
+export type ConfiguredValue = {
   paneType: PaneType;
   selectedValue: string;
+  selectedAttribute: keyof PaneConfig;
 };
 
-interface PaneConfig {
+export type PaneConfig = {
   fontSize: string;
   color: string;
-}
+};
 
 export type SettingsConfigType = {
   PREVIEW: PaneConfig;
   MEDIA: PaneConfig;
   COMMENTS: PaneConfig;
 };
+
+export enum DropdownAttribute {
+  FONTSIZE = "fontSize",
+  COLOR = "color",
+}

@@ -1,13 +1,14 @@
 import { Box, styled } from "@mui/material";
 import {
-  configuredValue,
+  ConfiguredValue,
+  DropdownAttribute,
   PaneType,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
 import Dropdown from "../Atoms/Dropdown";
 
 type SettingsPopupBodyProps = {
-  onConfiguring: (value: configuredValue) => void;
+  onConfiguring: (value: ConfiguredValue) => void;
   settingsConfigValue: SettingsConfigType;
 };
 
@@ -56,6 +57,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.PREVIEW).fontSize}
         valueList={fontSize}
+        attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
         label="font color"
@@ -63,6 +65,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.PREVIEW).color}
         valueList={color}
+        attribute={DropdownAttribute.COLOR}
       />
       <div>Media Uploader</div>
       <Dropdown
@@ -71,6 +74,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.MEDIA).fontSize}
         valueList={fontSize}
+        attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
         label="font color"
@@ -78,6 +82,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.MEDIA).color}
         valueList={color}
+        attribute={DropdownAttribute.COLOR}
       />
       <div>Comments</div>
       <Dropdown
@@ -86,6 +91,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.COMMENTS).fontSize}
         valueList={fontSize}
+        attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
         label="font color"
@@ -93,6 +99,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
         onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.COMMENTS).color}
         valueList={color}
+        attribute={DropdownAttribute.COLOR}
       />
     </SettingsPopupBodyStyle>
   );

@@ -8,12 +8,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SettingsPopupBody from "./SettingsPopupBody";
 import {
-  configuredValue,
+  ConfiguredValue,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
 
 type SettingsPopupProps = {
-  popupState: boolean;
+  isPopupOpen: boolean;
   onPopupSubmit: (paneConfig: SettingsConfigType) => void;
   settingsConfigValue: SettingsConfigType;
 };
@@ -26,8 +26,8 @@ type SettingsPopupProps = {
  */
 
 const SettingsPopup = (props: SettingsPopupProps) => {
-  const { popupState, onPopupSubmit, settingsConfigValue } = props;
-  const [open, setOpen] = React.useState(popupState);
+  const { isPopupOpen, onPopupSubmit, settingsConfigValue } = props;
+  const [open, setOpen] = React.useState(isPopupOpen);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [paneConfig, setPaneConfig] = React.useState<SettingsConfigType>({
@@ -38,23 +38,17 @@ const SettingsPopup = (props: SettingsPopupProps) => {
 
   // Update open state whenever popupState changes
   React.useEffect(() => {
-    setOpen(popupState);
-  }, [popupState]);
+    setOpen(isPopupOpen);
+  }, [isPopupOpen]);
 
-  const onConfiguring = (value: configuredValue) => {
+  const onConfiguring = (value: ConfiguredValue) => {
     const panetype = value.paneType;
     const style = value.selectedValue;
-    if (style.includes("px")) {
-      setPaneConfig({
-        ...paneConfig,
-        [panetype]: { ...paneConfig[panetype], fontSize: style },
-      });
-    } else {
-      setPaneConfig({
-        ...paneConfig,
-        [panetype]: { ...paneConfig[panetype], color: style },
-      });
-    }
+    const selectedAttribute = value.selectedAttribute;
+    setPaneConfig({
+      ...paneConfig,
+      [panetype]: { ...paneConfig[panetype], [selectedAttribute]: style },
+    });
   };
 
   const onApply = () => {
@@ -69,7 +63,7 @@ const SettingsPopup = (props: SettingsPopupProps) => {
         onClose={onApply}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"Sections"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">Sections</DialogTitle>
         <DialogContent>
           <SettingsPopupBody
             onConfiguring={onConfiguring}

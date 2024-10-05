@@ -20,7 +20,7 @@ type HeaderProps = {
 const Header = (props: HeaderProps) => {
   const { settingsConfig, settingsConfigValue } = props;
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [popupState, setPopupState] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -31,11 +31,11 @@ const Header = (props: HeaderProps) => {
   };
 
   const onPopupOpen = () => {
-    setPopupState(true);
+    setIsPopupOpen(true);
   };
 
   const onPopupSubmit = (paneConfig: SettingsConfigType) => {
-    setPopupState(false);
+    setIsPopupOpen(false);
     settingsConfig(paneConfig);
   };
 
@@ -62,7 +62,7 @@ const Header = (props: HeaderProps) => {
       </Toolbar>
       <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
       <SettingsPopup
-        popupState={popupState}
+        isPopupOpen={isPopupOpen}
         onPopupSubmit={onPopupSubmit}
         settingsConfigValue={settingsConfigValue}
       />
