@@ -11,6 +11,7 @@ type DropdownProps = {
   paneType: PaneType;
   onConfiguring: (value: configuredValue) => void;
   prevValue: string; // To set the dropdown to its previous value on opening
+  valueList: (string | number)[];
 };
 
 /**
@@ -19,13 +20,17 @@ type DropdownProps = {
  *
  */
 
+const DropDownValues = (valueList: (string | number)[]) => {
+  return valueList.map((item) => <MenuItem value={item}>{`${item}`}</MenuItem>);
+};
+
 const Dropdown = (props: DropdownProps) => {
-  const { label, paneType, onConfiguring, prevValue } = props;
+  const { label, paneType, onConfiguring, prevValue, valueList } = props;
   const [value, setValue] = React.useState(prevValue);
 
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
-    onConfiguring({ paneType, fontSize: `${String(event.target.value)}px` }); // Concatenating with "px" so that it will be easy to use directly in styling components
+    onConfiguring({ paneType, selectedValue: event.target.value });
   };
 
   return (
@@ -39,14 +44,7 @@ const Dropdown = (props: DropdownProps) => {
           label="fontsize"
           onChange={handleChange}
         >
-          <MenuItem value={10}>10px</MenuItem>
-          <MenuItem value={20}>20px</MenuItem>
-          <MenuItem value={30}>30px</MenuItem>
-          <MenuItem value={40}>40px</MenuItem>
-          <MenuItem value={50}>50px</MenuItem>
-          <MenuItem value={60}>60px</MenuItem>
-          <MenuItem value={70}>70px</MenuItem>
-          <MenuItem value={80}>80px</MenuItem>
+          {DropDownValues(valueList)}
         </Select>
       </FormControl>
     </Box>

@@ -29,9 +29,9 @@ const Home = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
   const [settingsConfigValue, setSettingsConfigValue] =
     useState<SettingsConfigType>({
-      PREVIEW: { fontSize: "" },
-      MEDIA: { fontSize: "" },
-      COMMENTS: { fontSize: "" },
+      PREVIEW: { fontSize: "", color: "" },
+      MEDIA: { fontSize: "", color: "" },
+      COMMENTS: { fontSize: "", color: "" },
     });
 
   const onMediaLoad = () => {

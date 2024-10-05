@@ -38,11 +38,12 @@ export enum PaneType {
 
 export type configuredValue = {
   paneType: PaneType;
-  fontSize: string;
+  selectedValue: string;
 };
 
 interface PaneConfig {
   fontSize: string;
+  color: string;
 }
 
 export type SettingsConfigType = {

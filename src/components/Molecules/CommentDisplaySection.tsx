@@ -19,8 +19,9 @@ const CommentDisplayStyle = styled(Box)<CommentDisplayStyleProps>(
     padding: "5px",
     marginTop: "5px",
     fontSize: settingsConfigValue
-      ? settingsConfigValue.PREVIEW.fontSize
+      ? settingsConfigValue.COMMENTS.fontSize
       : "20px",
+    color: settingsConfigValue ? settingsConfigValue.COMMENTS.color : "black",
   })
 );
 

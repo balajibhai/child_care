@@ -31,9 +31,9 @@ const SettingsPopup = (props: SettingsPopupProps) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [paneConfig, setPaneConfig] = React.useState<SettingsConfigType>({
-    PREVIEW: { fontSize: "" },
-    MEDIA: { fontSize: "" },
-    COMMENTS: { fontSize: "" },
+    PREVIEW: { fontSize: "", color: "" },
+    MEDIA: { fontSize: "", color: "" },
+    COMMENTS: { fontSize: "", color: "" },
   });
 
   // Update open state whenever popupState changes
@@ -43,8 +43,18 @@ const SettingsPopup = (props: SettingsPopupProps) => {
 
   const onConfiguring = (value: configuredValue) => {
     const panetype = value.paneType;
-    const fontSize = value.fontSize;
-    setPaneConfig({ ...paneConfig, [panetype]: { fontSize: fontSize } });
+    const style = value.selectedValue;
+    if (style.includes("px")) {
+      setPaneConfig({
+        ...paneConfig,
+        [panetype]: { ...paneConfig[panetype], fontSize: style },
+      });
+    } else {
+      setPaneConfig({
+        ...paneConfig,
+        [panetype]: { ...paneConfig[panetype], color: style },
+      });
+    }
   };
 
   const onApply = () => {
