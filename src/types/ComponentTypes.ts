@@ -4,6 +4,7 @@ export interface MediaUploaderProps {
   type: MediaUploaderEnum;
   onMediaChange: (updatedMedia: MediaItem) => void;
   mediaView?: MediaView;
+  settingsConfigValue: SettingsConfigType;
 }
 
 export enum mediaType {
@@ -27,4 +28,32 @@ export interface MediaItem {
 export enum MediaView {
   UPLOADED = "UPLOADED",
   PREVIEW = "PREVIEW",
+}
+
+export enum PaneType {
+  PREVIEW = "PREVIEW",
+  MEDIA = "MEDIA",
+  COMMENTS = "COMMENTS",
+}
+
+export type ConfiguredValue = {
+  paneType: PaneType;
+  selectedValue: string;
+  selectedAttribute: keyof PaneConfig;
+};
+
+export type PaneConfig = {
+  fontSize: string;
+  color: string;
+};
+
+export type SettingsConfigType = {
+  PREVIEW: PaneConfig;
+  MEDIA: PaneConfig;
+  COMMENTS: PaneConfig;
+};
+
+export enum DropdownAttribute {
+  FONTSIZE = "fontSize",
+  COLOR = "color",
 }
