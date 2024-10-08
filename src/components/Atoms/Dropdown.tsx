@@ -4,16 +4,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import {
-  ConfiguredValue,
-  PaneConfig,
-  PaneType,
-} from "../../types/ComponentTypes";
+import { PaneConfig, PaneType } from "../../types/ComponentTypes";
+import { SettingsPopupContext } from "../../Context";
 
 type DropdownProps = {
   label: string;
   paneType: PaneType;
-  onConfiguring: (value: ConfiguredValue) => void;
   prevValue: string; // To set the dropdown to its previous value on opening
   valueList: (string | number)[];
   attribute: keyof PaneConfig;
@@ -30,9 +26,9 @@ const DropDownValues = (valueList: (string | number)[]) => {
 };
 
 const Dropdown = (props: DropdownProps) => {
-  const { label, paneType, onConfiguring, prevValue, valueList, attribute } =
-    props;
+  const { label, paneType, prevValue, valueList, attribute } = props;
   const [value, setValue] = React.useState(prevValue);
+  const { onConfiguring } = React.useContext(SettingsPopupContext);
 
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);

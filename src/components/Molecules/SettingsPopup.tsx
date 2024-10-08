@@ -6,16 +6,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import SettingsPopupBody from "./SettingsPopupBody";
 import {
   ConfiguredValue,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
+import { SettingsPopupContext } from "../../Context";
+import SettingsPopupBody from "./SettingsPopupBody";
 
 type SettingsPopupProps = {
   isPopupOpen: boolean;
   onPopupSubmit: (paneConfig: SettingsConfigType) => void;
-  settingsConfigValue: SettingsConfigType;
 };
 
 /**
@@ -26,7 +26,7 @@ type SettingsPopupProps = {
  */
 
 const SettingsPopup = (props: SettingsPopupProps) => {
-  const { isPopupOpen, onPopupSubmit, settingsConfigValue } = props;
+  const { isPopupOpen, onPopupSubmit } = props;
   const [open, setOpen] = React.useState(isPopupOpen);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -65,10 +65,9 @@ const SettingsPopup = (props: SettingsPopupProps) => {
       >
         <DialogTitle id="responsive-dialog-title">Sections</DialogTitle>
         <DialogContent>
-          <SettingsPopupBody
-            onConfiguring={onConfiguring}
-            settingsConfigValue={settingsConfigValue}
-          />
+          <SettingsPopupContext.Provider value={{ onConfiguring }}>
+            <SettingsPopupBody />
+          </SettingsPopupContext.Provider>
         </DialogContent>
         <DialogActions>
           <Button onClick={onApply} autoFocus>

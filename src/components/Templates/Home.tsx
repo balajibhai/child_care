@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import UploadSection from "../Molecules/UploadSection";
 import Header from "../Organisms/Header";
 import UploadMedia from "../Organisms/UploadMedia";
 import {
@@ -7,6 +6,8 @@ import {
   MediaUploaderEnum,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
+import { HeaderContext } from "../../Context";
+import UploadButtons from "../Molecules/UploadButtons";
 
 /**
  *
@@ -85,10 +86,9 @@ const Home = () => {
 
   return (
     <>
-      <Header
-        settingsConfig={settingsConfig}
-        settingsConfigValue={settingsConfigValue}
-      />
+      <HeaderContext.Provider value={settingsConfigValue}>
+        <Header settingsConfig={settingsConfig} />
+      </HeaderContext.Provider>
       <UploadMedia
         mediaListRef={mediaListRef}
         mediaList={mediaList}
@@ -98,10 +98,10 @@ const Home = () => {
         type={mediaState}
         settingsConfigValue={settingsConfigValue}
       />
-      <UploadSection
-        onPreview={onPreview}
+      <UploadButtons
+        onFileSelect={onPreview}
         onUpload={onUpload}
-        handleCancel={handleCancel}
+        onCancel={handleCancel}
       />
     </>
   );

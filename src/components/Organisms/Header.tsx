@@ -14,11 +14,10 @@ import { SettingsConfigType } from "../../types/ComponentTypes";
 
 type HeaderProps = {
   settingsConfig: (paneConfig: SettingsConfigType) => void;
-  settingsConfigValue: SettingsConfigType;
 };
 
 const Header = (props: HeaderProps) => {
-  const { settingsConfig, settingsConfigValue } = props;
+  const { settingsConfig } = props;
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -61,11 +60,7 @@ const Header = (props: HeaderProps) => {
         />
       </Toolbar>
       <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
-      <SettingsPopup
-        isPopupOpen={isPopupOpen}
-        onPopupSubmit={onPopupSubmit}
-        settingsConfigValue={settingsConfigValue}
-      />
+      <SettingsPopup isPopupOpen={isPopupOpen} onPopupSubmit={onPopupSubmit} />
     </AppBar>
   );
 };

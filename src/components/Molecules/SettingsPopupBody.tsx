@@ -1,16 +1,8 @@
 import { Box, styled } from "@mui/material";
-import {
-  ConfiguredValue,
-  DropdownAttribute,
-  PaneType,
-  SettingsConfigType,
-} from "../../types/ComponentTypes";
+import { DropdownAttribute, PaneType } from "../../types/ComponentTypes";
 import Dropdown from "../Atoms/Dropdown";
-
-type SettingsPopupBodyProps = {
-  onConfiguring: (value: ConfiguredValue) => void;
-  settingsConfigValue: SettingsConfigType;
-};
+import { useContext } from "react";
+import { HeaderContext } from "../../Context";
 
 const SettingsPopupBodyStyle = styled(Box)(({ theme }) => ({
   width: "500px",
@@ -25,8 +17,7 @@ const SettingsPopupBodyStyle = styled(Box)(({ theme }) => ({
  *
  */
 
-const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
-  const { onConfiguring, settingsConfigValue } = props;
+const SettingsPopupBody = () => {
   const fontSize = [
     "10px",
     "20px",
@@ -38,6 +29,7 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
     "80px",
   ];
   const color = ["blue", "green", "yellow", "pink", "violet", "orange", "red"];
+  const settingsConfigValue = useContext(HeaderContext);
 
   /*
    * The getPrevValue function is for setting the dropdown to the previous value when
@@ -54,7 +46,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font size"
         paneType={PaneType.PREVIEW}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.PREVIEW).fontSize}
         valueList={fontSize}
         attribute={DropdownAttribute.FONTSIZE}
@@ -62,7 +53,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font color"
         paneType={PaneType.PREVIEW}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.PREVIEW).color}
         valueList={color}
         attribute={DropdownAttribute.COLOR}
@@ -71,7 +61,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font size"
         paneType={PaneType.MEDIA}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.MEDIA).fontSize}
         valueList={fontSize}
         attribute={DropdownAttribute.FONTSIZE}
@@ -79,7 +68,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font color"
         paneType={PaneType.MEDIA}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.MEDIA).color}
         valueList={color}
         attribute={DropdownAttribute.COLOR}
@@ -88,7 +76,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font size"
         paneType={PaneType.COMMENTS}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.COMMENTS).fontSize}
         valueList={fontSize}
         attribute={DropdownAttribute.FONTSIZE}
@@ -96,7 +83,6 @@ const SettingsPopupBody = (props: SettingsPopupBodyProps) => {
       <Dropdown
         label="font color"
         paneType={PaneType.COMMENTS}
-        onConfiguring={onConfiguring}
         prevValue={getPrevValue(PaneType.COMMENTS).color}
         valueList={color}
         attribute={DropdownAttribute.COLOR}
