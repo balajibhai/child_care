@@ -1,7 +1,9 @@
 import { Box, styled } from "@mui/material";
+import { CommentData } from "../../types/CommentTypes";
+import TimeComponent from "./TimeComponent";
 
 interface CommentDisplayProps {
-  displayText: { [key: string]: JSX.Element }[];
+  displayText: CommentData[];
 }
 
 const CommentDisplayStyle = styled(Box)(({ theme }) => ({
@@ -14,13 +16,12 @@ const CommentDisplay = ({ displayText }: CommentDisplayProps) => {
   return (
     <>
       {displayText.map((element, index) => {
-        const commentText = Object.keys(element)[0];
-        const timeComponent = Object.values(element)[0];
-
         return (
           <CommentDisplayStyle key={index}>
-            <div>{commentText}</div>
-            <div>{timeComponent}</div>
+            {element.comment}
+            <div>
+              <TimeComponent time={element.time} />
+            </div>
           </CommentDisplayStyle>
         );
       })}

@@ -6,13 +6,11 @@ interface TextareaProps {
 
 const Textarea = ({ value, onChange, placeholder }: TextareaProps) => {
   return (
-    <>
-      <textarea
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      ></textarea>
-    </>
+    <textarea
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+    ></textarea>
   );
 };
 

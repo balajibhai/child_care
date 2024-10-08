@@ -1,37 +1,36 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Text from "../Atoms/Text";
-import MediaUploader from "../Molecules/MediaUploader";
-import { Box, styled } from "@mui/material";
-import UploadSection from "../Molecules/UploadSection";
+import ShowMediaList from "../Molecules/ShowMediaList";
+import {
+  MediaItem,
+  mediaType,
+  MediaUploaderEnum,
+  MediaView,
+} from "../../types/ComponentTypes";
 
-interface MediaItem {
-  id: string;
-  file: File;
-  type: "image" | "video";
+interface UploadMediaProps {
+  mediaListRef: React.RefObject<HTMLDivElement>;
+  mediaList: MediaItem[];
+  previewMediaList: MediaItem[];
+  setPreviewMediaList: (list: MediaItem[]) => void;
+  onMediaLoad: () => void;
+  type: MediaUploaderEnum;
 }
 
-const AppContainer = styled(Box)(({ theme }) => ({
-  fontFamily: "Arial, sans-serif",
-  padding: "20px",
-}));
-
-const MediaList = styled(Box)(({ theme }) => ({
-  maxHeight: "800px",
-  overflowY: "auto",
-  border: "1px solid #ccc",
-  padding: "10px",
-}));
-
-const UploadMedia: React.FC = () => {
-  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+const UploadMedia = (props: UploadMediaProps) => {
+  const {
+    mediaListRef,
+    mediaList,
+    previewMediaList,
+    setPreviewMediaList,
+    onMediaLoad,
+    type,
+  } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
-  const mediaListRef = useRef<HTMLDivElement>(null);
-  const [, setLoadedMediaCount] = useState(0);
-  const [newMediaCount, setNewMediaCount] = useState(0);
 
   useEffect(() => {
-    mediaList.forEach((media) => {
-      if (media.type === "video" && !observers.current[media.id]) {
+    mediaList.forEach((media: MediaItem) => {
+      if (media.type === mediaType.VIDEO && !observers.current[media.id]) {
         const videoElement = document.getElementById(
           media.id
         ) as HTMLVideoElement | null;
@@ -68,45 +67,31 @@ const UploadMedia: React.FC = () => {
     };
   }, [mediaList]);
 
-  const handleUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: "image" | "video"
-  ) => {
-    const files = Array.from(event.target.files || []);
-    const newMedia = files.map((file) => {
-      return {
-        id: URL.createObjectURL(file),
-        file: file,
-        type: type,
-      } as MediaItem;
-    });
-    setNewMediaCount(newMedia.length);
-    setLoadedMediaCount(0);
-    setMediaList((prev) => [...prev, ...newMedia]);
-  };
-  const handleMediaLoad = () => {
-    setLoadedMediaCount((prev) => {
-      const newCount = prev + 1;
-      if (newCount === newMediaCount) {
-        // All new media items have loaded
-        if (mediaListRef.current) {
-          mediaListRef.current.scrollTop = mediaListRef.current.scrollHeight;
-        }
-      }
-      return newCount;
-    });
-  };
-
   return (
-    <AppContainer>
-      <Text variant="h4" content="Media Uploader" />
-      <MediaList ref={mediaListRef}>
-        {mediaList.map((media) => (
-          <MediaUploader media={media} handleMediaLoad={handleMediaLoad} />
-        ))}
-      </MediaList>
-      <UploadSection handleUpload={handleUpload} />
-    </AppContainer>
+    <>
+      {mediaList.length > 0 && (
+        <>
+          <Text variant="h4" content="Media Uploader" />
+          <ShowMediaList
+            mediaListRef={mediaListRef}
+            mediaList={mediaList}
+            setPreviewMediaList={setPreviewMediaList}
+            onMediaLoad={onMediaLoad}
+            type={type}
+            mediaView={MediaView.UPLOADED}
+          />
+        </>
+      )}
+      <Text variant="h6" content="Preview" />
+      <ShowMediaList
+        mediaListRef={mediaListRef}
+        mediaList={previewMediaList}
+        setPreviewMediaList={setPreviewMediaList}
+        onMediaLoad={onMediaLoad}
+        type={type}
+        mediaView={MediaView.PREVIEW}
+      />
+    </>
   );
 };
 

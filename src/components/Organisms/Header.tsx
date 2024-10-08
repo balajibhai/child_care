@@ -1,5 +1,5 @@
 import { AppBar, Toolbar } from "@mui/material";
-import Icons from "../Atoms/Icons";
+import Icon from "../Atoms/Icon";
 import Text from "../Atoms/Text";
 import { useState } from "react";
 import DrawerComponent from "../Molecules/DrawerComponent";
@@ -13,24 +13,22 @@ const Header = () => {
     setDrawerOpen(false);
   };
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          {/* Left: Hamburger Icon */}
-          <Icons
-            edge="start"
-            color="inherit"
-            sx={{ mr: 2 }}
-            icon="Menu"
-            onClick={toggleDrawer}
-          />
-          {/* Title */}
-          <Text variant="h6" sx={{ flexGrow: 1 }} content="Child Care" />
-          <Icons edge="end" color="inherit" icon="Account" />
-        </Toolbar>
-        <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
-      </AppBar>
-    </>
+    <AppBar position="static">
+      <Toolbar>
+        {/* Left: Hamburger Icon */}
+        <Icon
+          edge="start"
+          color="inherit"
+          sx={{ mr: 2 }}
+          icon="Menu"
+          onClick={toggleDrawer}
+        />
+        {/* Title */}
+        <Text variant="h6" sx={{ flexGrow: 1 }} content="Child Care" />
+        <Icon edge="end" color="inherit" icon="Account" />
+      </Toolbar>
+      <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
+    </AppBar>
   );
 };
 

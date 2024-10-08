@@ -3,20 +3,10 @@ import Textarea from "../Atoms/Textarea";
 import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
-import GetTime from "./GetTime";
+import { CommentData } from "../../types/CommentTypes";
+import { getTimeString } from "./TimeComponent";
 
-interface CommentSectionProps {
-  mediaId: string;
-  placeholder: string;
-  buttonLabel: string;
-}
-
-// Define CommentData type where the key is a comment and the value is a JSX element
-interface CommentData {
-  [key: string]: JSX.Element;
-}
-
-const CommentBox = styled(Box)(({ theme }) => ({
+const CommentBoxStyle = styled(Box)(({ theme }) => ({
   marginTop: "10px",
 
   "& textarea": {
@@ -25,52 +15,34 @@ const CommentBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CommentSection = ({
-  mediaId,
-  placeholder,
-  buttonLabel,
-}: CommentSectionProps) => {
-  const [displayText, setDisplaytext] = useState<{
-    [key: string]: CommentData[];
-  }>({});
+const CommentSection = () => {
+  const [displayText, setDisplaytext] = useState<CommentData[]>([]);
 
-  const [comments, setComments] = useState<{ [key: string]: string }>({});
+  const [newComment, setNewComment] = useState<string>("");
 
-  const handleSendClick = (id: string) => {
-    setDisplaytext((prev) => ({
-      ...prev,
-      [id]: prev[id]
-        ? [...prev[id], { [comments[id]]: <GetTime /> }] // Add new comment and GetTime component
-        : [{ [comments[id]]: <GetTime /> }], // Initialize if no comments exist
-    }));
+  const handleSendClick = () => {
+    const time = getTimeString();
+    setDisplaytext([...displayText, { comment: newComment, time }]);
+    setNewComment("");
   };
 
-  const handleCommentChange = (id: string, comment: string) => {
-    setComments((prev) => ({
-      ...prev,
-      [id]: comment,
-    }));
+  const onCommentChange = (comment: string) => {
+    setNewComment(comment);
   };
 
   return (
     <>
-      <CommentBox>
+      <CommentBoxStyle>
         <Textarea
-          value={comments[mediaId]}
+          value={newComment}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            handleCommentChange(mediaId, e.target.value)
+            onCommentChange(e.target.value)
           }
-          placeholder={placeholder}
+          placeholder="Add a comment ..."
         />
-      </CommentBox>
-      <Button
-        onClick={() => handleSendClick(mediaId)}
-        label={buttonLabel}
-        disabled={!comments[mediaId]}
-      />
-      {displayText[mediaId] && (
-        <CommentDisplay displayText={displayText[mediaId]} />
-      )}
+      </CommentBoxStyle>
+      <Button onClick={handleSendClick} label={"Send"} disabled={!newComment} />
+      {displayText.length > 0 && <CommentDisplay displayText={displayText} />}
     </>
   );
 };
