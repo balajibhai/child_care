@@ -4,7 +4,6 @@ export type MediaType = {
   id?: string;
   src: string;
   alt: string;
-  onLoad: () => void;
   onClick: () => void;
   type: mediaType;
 };

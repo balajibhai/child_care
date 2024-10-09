@@ -6,7 +6,7 @@ import {
   MediaUploaderEnum,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
-import { HeaderContext } from "../../Context";
+import { HeaderContext, UploadMediaContext } from "../../Context";
 import UploadButtons from "../Molecules/UploadButtons";
 
 /**
@@ -89,15 +89,20 @@ const Home = () => {
       <HeaderContext.Provider value={settingsConfigValue}>
         <Header settingsConfig={settingsConfig} />
       </HeaderContext.Provider>
-      <UploadMedia
-        mediaListRef={mediaListRef}
-        mediaList={mediaList}
-        previewMediaList={previewMediaList}
-        setPreviewMediaList={setPreviewMediaList}
-        onMediaLoad={onMediaLoad}
-        type={mediaState}
-        settingsConfigValue={settingsConfigValue}
-      />
+      <UploadMediaContext.Provider
+        value={{
+          mediaListRef,
+          setPreviewMediaList,
+          onMediaLoad,
+          type: mediaState,
+          settingsConfigValue: settingsConfigValue,
+        }}
+      >
+        <UploadMedia
+          mediaList={mediaList}
+          previewMediaList={previewMediaList}
+        />
+      </UploadMediaContext.Provider>
       <UploadButtons
         onFileSelect={onPreview}
         onUpload={onUpload}

@@ -12,11 +12,14 @@ interface ConfigContextType {
 
 interface UploadMediaContextType {
   mediaListRef: React.RefObject<HTMLDivElement>;
-  previewMediaList: MediaItem[];
   setPreviewMediaList: (list: MediaItem[]) => void;
   onMediaLoad: () => void;
   type: MediaUploaderEnum;
   settingsConfigValue: SettingsConfigType;
+}
+
+interface MediaUploaderContextType {
+  onMediaChange: (updatedMedia: MediaItem) => void;
 }
 
 export const HeaderContext = createContext<SettingsConfigType>({
@@ -31,7 +34,6 @@ export const SettingsPopupContext = createContext<ConfigContextType>({
 
 export const UploadMediaContext = createContext<UploadMediaContextType>({
   mediaListRef: { current: null },
-  previewMediaList: [],
   setPreviewMediaList: () => {},
   onMediaLoad: () => {},
   type: MediaUploaderEnum.SELECT,
@@ -40,4 +42,8 @@ export const UploadMediaContext = createContext<UploadMediaContextType>({
     MEDIA: { fontSize: "", color: "" },
     COMMENTS: { fontSize: "", color: "" },
   },
+});
+
+export const MediaUploaderContext = createContext<MediaUploaderContextType>({
+  onMediaChange: () => {},
 });

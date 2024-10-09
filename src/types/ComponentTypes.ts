@@ -1,10 +1,7 @@
 export interface MediaUploaderProps {
   media: MediaItem;
-  onMediaLoad: () => void;
   type: MediaUploaderEnum;
-  onMediaChange: (updatedMedia: MediaItem) => void;
   mediaView?: MediaView;
-  settingsConfigValue: SettingsConfigType;
 }
 
 export enum mediaType {

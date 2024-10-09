@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Textarea from "../Atoms/Textarea";
 import CommentDisplay from "./CommentDisplaySection";
 import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
 import { CommentData } from "../../types/CommentTypes";
 import { getTimeString } from "./TimeComponent";
-import { SettingsConfigType } from "../../types/ComponentTypes";
+import { UploadMediaContext } from "../../Context";
 
 const CommentBoxStyle = styled(Box)(({ theme }) => ({
   marginTop: "10px",
@@ -16,12 +16,8 @@ const CommentBoxStyle = styled(Box)(({ theme }) => ({
   },
 }));
 
-type CommentSectionProps = {
-  settingsConfigValue: SettingsConfigType;
-};
-
-const CommentSection = (props: CommentSectionProps) => {
-  const { settingsConfigValue } = props;
+const CommentSection = () => {
+  const { settingsConfigValue } = useContext(UploadMediaContext);
   const [displayText, setDisplaytext] = useState<CommentData[]>([]);
 
   const [newComment, setNewComment] = useState<string>("");

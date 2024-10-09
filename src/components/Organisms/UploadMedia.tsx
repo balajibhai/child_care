@@ -1,35 +1,18 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import Text from "../Atoms/Text";
 import ShowMediaList from "../Molecules/ShowMediaList";
-import {
-  MediaItem,
-  mediaType,
-  MediaUploaderEnum,
-  MediaView,
-  SettingsConfigType,
-} from "../../types/ComponentTypes";
+import { MediaItem, mediaType, MediaView } from "../../types/ComponentTypes";
+import { UploadMediaContext } from "../../Context";
 
 interface UploadMediaProps {
-  mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
   previewMediaList: MediaItem[];
-  setPreviewMediaList: (list: MediaItem[]) => void;
-  onMediaLoad: () => void;
-  type: MediaUploaderEnum;
-  settingsConfigValue: SettingsConfigType;
 }
 
 const UploadMedia = (props: UploadMediaProps) => {
-  const {
-    mediaListRef,
-    mediaList,
-    previewMediaList,
-    setPreviewMediaList,
-    onMediaLoad,
-    type,
-    settingsConfigValue,
-  } = props;
+  const { mediaList, previewMediaList } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
+  const { settingsConfigValue } = useContext(UploadMediaContext);
 
   useEffect(() => {
     mediaList.forEach((media: MediaItem) => {
@@ -79,26 +62,13 @@ const UploadMedia = (props: UploadMediaProps) => {
             content="Media Uploader"
             sx={settingsConfigValue.MEDIA}
           />
-          <ShowMediaList
-            mediaListRef={mediaListRef}
-            mediaList={mediaList}
-            setPreviewMediaList={setPreviewMediaList}
-            onMediaLoad={onMediaLoad}
-            type={type}
-            mediaView={MediaView.UPLOADED}
-            settingsConfigValue={settingsConfigValue}
-          />
+          <ShowMediaList mediaView={MediaView.UPLOADED} mediaList={mediaList} />
         </>
       )}
       <Text variant="h6" content="Preview" sx={settingsConfigValue.PREVIEW} />
       <ShowMediaList
-        mediaListRef={mediaListRef}
-        mediaList={previewMediaList}
-        setPreviewMediaList={setPreviewMediaList}
-        onMediaLoad={onMediaLoad}
-        type={type}
         mediaView={MediaView.PREVIEW}
-        settingsConfigValue={settingsConfigValue}
+        mediaList={previewMediaList}
       />
     </>
   );
