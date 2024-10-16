@@ -5,7 +5,7 @@ import Button from "../Atoms/Button";
 import { Box, styled } from "@mui/material";
 import { CommentData } from "../../types/CommentTypes";
 import { getTimeString } from "./TimeComponent";
-import { UploadMediaContext } from "../../Context";
+import { HomePageContext } from "../../Context";
 
 const CommentBoxStyle = styled(Box)(({ theme }) => ({
   marginTop: "10px",
@@ -17,7 +17,7 @@ const CommentBoxStyle = styled(Box)(({ theme }) => ({
 }));
 
 const CommentSection = () => {
-  const { settingsConfigValue } = useContext(UploadMediaContext);
+  const { settingsConfiguredValue } = useContext(HomePageContext);
   const [displayText, setDisplaytext] = useState<CommentData[]>([]);
 
   const [newComment, setNewComment] = useState<string>("");
@@ -47,7 +47,7 @@ const CommentSection = () => {
       {displayText.length > 0 && (
         <CommentDisplay
           displayText={displayText}
-          settingsConfigValue={settingsConfigValue}
+          settingsConfiguredValue={settingsConfiguredValue}
         />
       )}
     </>

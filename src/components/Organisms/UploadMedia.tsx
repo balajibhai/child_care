@@ -2,7 +2,7 @@ import { useRef, useEffect, useContext } from "react";
 import Text from "../Atoms/Text";
 import ShowMediaList from "../Molecules/ShowMediaList";
 import { MediaItem, mediaType, MediaView } from "../../types/ComponentTypes";
-import { UploadMediaContext } from "../../Context";
+import { HomePageContext } from "../../Context";
 
 interface UploadMediaProps {
   mediaList: MediaItem[];
@@ -12,7 +12,7 @@ interface UploadMediaProps {
 const UploadMedia = (props: UploadMediaProps) => {
   const { mediaList, previewMediaList } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
-  const { settingsConfigValue } = useContext(UploadMediaContext);
+  const { settingsConfiguredValue } = useContext(HomePageContext);
 
   useEffect(() => {
     mediaList.forEach((media: MediaItem) => {
@@ -60,12 +60,16 @@ const UploadMedia = (props: UploadMediaProps) => {
           <Text
             variant="h4"
             content="Media Uploader"
-            sx={settingsConfigValue.MEDIA}
+            sx={settingsConfiguredValue.MEDIA}
           />
           <ShowMediaList mediaView={MediaView.UPLOADED} mediaList={mediaList} />
         </>
       )}
-      <Text variant="h6" content="Preview" sx={settingsConfigValue.PREVIEW} />
+      <Text
+        variant="h6"
+        content="Preview"
+        sx={settingsConfiguredValue.PREVIEW}
+      />
       <ShowMediaList
         mediaView={MediaView.PREVIEW}
         mediaList={previewMediaList}

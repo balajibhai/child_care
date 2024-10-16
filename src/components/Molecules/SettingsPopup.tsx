@@ -41,7 +41,7 @@ const SettingsPopup = (props: SettingsPopupProps) => {
     setOpen(isPopupOpen);
   }, [isPopupOpen]);
 
-  const onConfiguring = (value: ConfiguredValue) => {
+  const onConfiguringSettings = (value: ConfiguredValue) => {
     const panetype = value.paneType;
     const style = value.selectedValue;
     const selectedAttribute = value.selectedAttribute;
@@ -65,7 +65,7 @@ const SettingsPopup = (props: SettingsPopupProps) => {
       >
         <DialogTitle id="responsive-dialog-title">Sections</DialogTitle>
         <DialogContent>
-          <SettingsPopupContext.Provider value={{ onConfiguring }}>
+          <SettingsPopupContext.Provider value={{ onConfiguringSettings }}>
             <SettingsPopupBody />
           </SettingsPopupContext.Provider>
         </DialogContent>

@@ -6,7 +6,7 @@ import {
   MediaUploaderEnum,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
-import { HeaderContext, UploadMediaContext } from "../../Context";
+import { HomePageContext, UploadMediaContext } from "../../Context";
 import UploadButtons from "../Molecules/UploadButtons";
 
 /**
@@ -28,7 +28,7 @@ const Home = () => {
   );
   const mediaListRef = useRef<HTMLDivElement>(null);
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
-  const [settingsConfigValue, setSettingsConfigValue] =
+  const [settingsConfiguredValue, setSettingsConfiguredValue] =
     useState<SettingsConfigType>({
       PREVIEW: { fontSize: "", color: "" },
       MEDIA: { fontSize: "", color: "" },
@@ -80,34 +80,34 @@ const Home = () => {
     setPreviewMediaList([]);
   };
 
-  const settingsConfig = (paneConfig: SettingsConfigType) => {
-    setSettingsConfigValue(paneConfig);
-  };
-
   return (
     <>
-      <HeaderContext.Provider value={settingsConfigValue}>
-        <Header settingsConfig={settingsConfig} />
-      </HeaderContext.Provider>
-      <UploadMediaContext.Provider
+      <HomePageContext.Provider
         value={{
-          mediaListRef,
-          setPreviewMediaList,
-          onMediaLoad,
-          type: mediaState,
-          settingsConfigValue: settingsConfigValue,
+          setSettingsConfiguredValue: setSettingsConfiguredValue,
+          settingsConfiguredValue: settingsConfiguredValue,
         }}
       >
-        <UploadMedia
-          mediaList={mediaList}
-          previewMediaList={previewMediaList}
+        <Header />
+        <UploadMediaContext.Provider
+          value={{
+            mediaListRef,
+            setPreviewMediaList,
+            onMediaLoad,
+            type: mediaState,
+          }}
+        >
+          <UploadMedia
+            mediaList={mediaList}
+            previewMediaList={previewMediaList}
+          />
+        </UploadMediaContext.Provider>
+        <UploadButtons
+          onFileSelect={onPreview}
+          onUpload={onUpload}
+          onCancel={handleCancel}
         />
-      </UploadMediaContext.Provider>
-      <UploadButtons
-        onFileSelect={onPreview}
-        onUpload={onUpload}
-        onCancel={handleCancel}
-      />
+      </HomePageContext.Provider>
     </>
   );
 };

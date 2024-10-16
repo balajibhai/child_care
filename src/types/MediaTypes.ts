@@ -6,6 +6,7 @@ export type MediaType = {
   alt: string;
   onClick: () => void;
   type: mediaType;
+  onLoad?: () => void;
 };
 export type ImageType = Omit<MediaType, "type"> & {};
 

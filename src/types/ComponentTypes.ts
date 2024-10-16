@@ -17,7 +17,7 @@ export enum MediaUploaderEnum {
 export interface MediaItem {
   id: string;
   file: File;
-  type: mediaType;
+  type?: mediaType;
   filename: string;
   time: string;
 }

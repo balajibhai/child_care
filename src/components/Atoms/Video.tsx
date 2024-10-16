@@ -1,16 +1,13 @@
-import { useContext } from "react";
 import { VideoType } from "../../types/MediaTypes";
-import { UploadMediaContext } from "../../Context";
 
-const Video = ({ id, src, onClick, controls }: VideoType) => {
-  const { onMediaLoad } = useContext(UploadMediaContext);
+const Video = ({ id, src, onClick, controls, onLoadedData }: VideoType) => {
   return (
     <>
       <video
         id={id}
         src={src}
         controls={controls}
-        onLoadedData={onMediaLoad}
+        onLoadedData={onLoadedData}
         onClick={onClick}
       />
     </>

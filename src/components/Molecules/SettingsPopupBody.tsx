@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 import { DropdownAttribute, PaneType } from "../../types/ComponentTypes";
 import Dropdown from "../Atoms/Dropdown";
 import { useContext } from "react";
-import { HeaderContext } from "../../Context";
+import { HomePageContext, SettingsPopupContext } from "../../Context";
 
 const SettingsPopupBodyStyle = styled(Box)(({ theme }) => ({
   width: "500px",
@@ -29,7 +29,8 @@ const SettingsPopupBody = () => {
     "80px",
   ];
   const color = ["blue", "green", "yellow", "pink", "violet", "orange", "red"];
-  const settingsConfigValue = useContext(HeaderContext);
+  const { settingsConfiguredValue } = useContext(HomePageContext);
+  const { onConfiguringSettings } = useContext(SettingsPopupContext);
 
   /*
    * The getPrevValue function is for setting the dropdown to the previous value when
@@ -37,7 +38,7 @@ const SettingsPopupBody = () => {
    */
 
   const getPrevValue = (panetype: PaneType) => {
-    return settingsConfigValue[panetype];
+    return settingsConfiguredValue[panetype];
   };
 
   return (
@@ -48,6 +49,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.PREVIEW}
         prevValue={getPrevValue(PaneType.PREVIEW).fontSize}
         valueList={fontSize}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
@@ -55,6 +57,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.PREVIEW}
         prevValue={getPrevValue(PaneType.PREVIEW).color}
         valueList={color}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.COLOR}
       />
       <div>Media Uploader</div>
@@ -63,6 +66,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.MEDIA}
         prevValue={getPrevValue(PaneType.MEDIA).fontSize}
         valueList={fontSize}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
@@ -70,6 +74,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.MEDIA}
         prevValue={getPrevValue(PaneType.MEDIA).color}
         valueList={color}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.COLOR}
       />
       <div>Comments</div>
@@ -78,6 +83,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.COMMENTS}
         prevValue={getPrevValue(PaneType.COMMENTS).fontSize}
         valueList={fontSize}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.FONTSIZE}
       />
       <Dropdown
@@ -85,6 +91,7 @@ const SettingsPopupBody = () => {
         paneType={PaneType.COMMENTS}
         prevValue={getPrevValue(PaneType.COMMENTS).color}
         valueList={color}
+        onConfiguringSettings={onConfiguringSettings}
         attribute={DropdownAttribute.COLOR}
       />
     </SettingsPopupBodyStyle>

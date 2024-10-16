@@ -5,29 +5,31 @@ import { SettingsConfigType } from "../../types/ComponentTypes";
 
 // Interface for settings passed to styled component
 interface CommentDisplayStyleProps {
-  settingsConfigValue: SettingsConfigType;
+  settingsConfiguredValue: SettingsConfigType;
 }
 
 interface CommentDisplayProps {
   displayText: CommentData[];
-  settingsConfigValue: SettingsConfigType;
+  settingsConfiguredValue: SettingsConfigType;
 }
 
 const CommentDisplayStyle = styled(Box)<CommentDisplayStyleProps>(
-  ({ theme, settingsConfigValue }) => ({
+  ({ theme, settingsConfiguredValue }) => ({
     backgroundColor: "#f0f0f0",
     padding: "5px",
     marginTop: "5px",
-    fontSize: settingsConfigValue
-      ? settingsConfigValue.COMMENTS.fontSize
+    fontSize: settingsConfiguredValue
+      ? settingsConfiguredValue.COMMENTS.fontSize
       : "20px",
-    color: settingsConfigValue ? settingsConfigValue.COMMENTS.color : "black",
+    color: settingsConfiguredValue
+      ? settingsConfiguredValue.COMMENTS.color
+      : "black",
   })
 );
 
 const CommentDisplay = ({
   displayText,
-  settingsConfigValue,
+  settingsConfiguredValue,
 }: CommentDisplayProps) => {
   return (
     <>
@@ -35,7 +37,7 @@ const CommentDisplay = ({
         return (
           <CommentDisplayStyle
             key={index}
-            settingsConfigValue={settingsConfigValue}
+            settingsConfiguredValue={settingsConfiguredValue}
           >
             {element.comment}
             <div>
