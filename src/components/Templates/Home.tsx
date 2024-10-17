@@ -84,8 +84,8 @@ const Home = () => {
     <>
       <HomePageContext.Provider
         value={{
-          setSettingsConfiguredValue: setSettingsConfiguredValue,
-          settingsConfiguredValue: settingsConfiguredValue,
+          setSettingsConfiguredValue,
+          settingsConfiguredValue,
         }}
       >
         <Header />

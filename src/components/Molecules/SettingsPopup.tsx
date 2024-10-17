@@ -10,12 +10,12 @@ import {
   ConfiguredValue,
   SettingsConfigType,
 } from "../../types/ComponentTypes";
-import { SettingsPopupContext } from "../../Context";
+import { HomePageContext, SettingsPopupContext } from "../../Context";
 import SettingsPopupBody from "./SettingsPopupBody";
 
 type SettingsPopupProps = {
   isPopupOpen: boolean;
-  onPopupSubmit: (paneConfig: SettingsConfigType) => void;
+  onPopupSubmit: () => void;
 };
 
 /**
@@ -26,6 +26,7 @@ type SettingsPopupProps = {
  */
 
 const SettingsPopup = (props: SettingsPopupProps) => {
+  const { setSettingsConfiguredValue } = React.useContext(HomePageContext);
   const { isPopupOpen, onPopupSubmit } = props;
   const [open, setOpen] = React.useState(isPopupOpen);
   const theme = useTheme();
@@ -52,7 +53,8 @@ const SettingsPopup = (props: SettingsPopupProps) => {
   };
 
   const onApply = () => {
-    onPopupSubmit(paneConfig);
+    setSettingsConfiguredValue(paneConfig);
+    onPopupSubmit();
   };
 
   return (

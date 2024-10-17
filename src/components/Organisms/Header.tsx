@@ -1,11 +1,9 @@
 import { AppBar, Toolbar } from "@mui/material";
 import Icon from "../Atoms/Icon";
 import Text from "../Atoms/Text";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DrawerComponent from "../Molecules/DrawerComponent";
 import SettingsPopup from "../Molecules/SettingsPopup";
-import { SettingsConfigType } from "../../types/ComponentTypes";
-import { HomePageContext, SettingsPopupContext } from "../../Context";
 
 /**
  * 1) When settings icon is clicked, the popup has to be opened
@@ -14,7 +12,6 @@ import { HomePageContext, SettingsPopupContext } from "../../Context";
  */
 
 const Header = () => {
-  const { setSettingsConfiguredValue } = useContext(HomePageContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -30,9 +27,8 @@ const Header = () => {
     setIsPopupOpen(true);
   };
 
-  const onPopupSubmit = (paneConfig: SettingsConfigType) => {
+  const onPopupSubmit = () => {
     setIsPopupOpen(false);
-    setSettingsConfiguredValue(paneConfig);
   };
 
   return (
