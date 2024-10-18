@@ -1,35 +1,18 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import Text from "../Atoms/Text";
 import ShowMediaList from "../Molecules/ShowMediaList";
-import {
-  MediaItem,
-  mediaType,
-  MediaUploaderEnum,
-  MediaView,
-  SettingsConfigType,
-} from "../../types/ComponentTypes";
+import { MediaItem, mediaType, MediaView } from "../../types/ComponentTypes";
+import { HomePageContext } from "../../Context";
 
 interface UploadMediaProps {
-  mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
   previewMediaList: MediaItem[];
-  setPreviewMediaList: (list: MediaItem[]) => void;
-  onMediaLoad: () => void;
-  type: MediaUploaderEnum;
-  settingsConfigValue: SettingsConfigType;
 }
 
 const UploadMedia = (props: UploadMediaProps) => {
-  const {
-    mediaListRef,
-    mediaList,
-    previewMediaList,
-    setPreviewMediaList,
-    onMediaLoad,
-    type,
-    settingsConfigValue,
-  } = props;
+  const { mediaList, previewMediaList } = props;
   const observers = useRef<{ [key: string]: IntersectionObserver }>({});
+  const { settingsConfiguredValue } = useContext(HomePageContext);
 
   useEffect(() => {
     mediaList.forEach((media: MediaItem) => {
@@ -42,14 +25,20 @@ const UploadMedia = (props: UploadMediaProps) => {
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                  videoElement.play();
+                  if (videoElement.paused) {
+                    videoElement.play().catch((error) => {
+                      console.error("Error playing video:", error);
+                    });
+                  }
                 } else {
-                  videoElement.pause();
+                  if (!videoElement.paused) {
+                    videoElement.pause();
+                  }
                 }
               });
             },
             {
-              threshold: 0.75, // play if the video is upto a particular view of 70%
+              threshold: 0.75, // play if the video is at least 75% in view
             }
           );
           observer.observe(videoElement);
@@ -60,7 +49,6 @@ const UploadMedia = (props: UploadMediaProps) => {
 
     // Cleanup only on unmount
     return () => {
-      // Clean up observers on unmount
       if (mediaList.length === 0) {
         Object.values(observers.current).forEach((observer) =>
           observer.disconnect()
@@ -77,28 +65,19 @@ const UploadMedia = (props: UploadMediaProps) => {
           <Text
             variant="h4"
             content="Media Uploader"
-            sx={settingsConfigValue.MEDIA}
+            sx={settingsConfiguredValue.MEDIA}
           />
-          <ShowMediaList
-            mediaListRef={mediaListRef}
-            mediaList={mediaList}
-            setPreviewMediaList={setPreviewMediaList}
-            onMediaLoad={onMediaLoad}
-            type={type}
-            mediaView={MediaView.UPLOADED}
-            settingsConfigValue={settingsConfigValue}
-          />
+          <ShowMediaList mediaView={MediaView.UPLOADED} mediaList={mediaList} />
         </>
       )}
-      <Text variant="h6" content="Preview" sx={settingsConfigValue.PREVIEW} />
+      <Text
+        variant="h6"
+        content="Preview"
+        sx={settingsConfiguredValue.PREVIEW}
+      />
       <ShowMediaList
-        mediaListRef={mediaListRef}
-        mediaList={previewMediaList}
-        setPreviewMediaList={setPreviewMediaList}
-        onMediaLoad={onMediaLoad}
-        type={type}
         mediaView={MediaView.PREVIEW}
-        settingsConfigValue={settingsConfigValue}
+        mediaList={previewMediaList}
       />
     </>
   );

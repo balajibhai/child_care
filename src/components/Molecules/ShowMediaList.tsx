@@ -4,17 +4,13 @@ import {
   MediaItem,
   MediaUploaderEnum,
   MediaView,
-  SettingsConfigType,
 } from "../../types/ComponentTypes";
+import { useContext } from "react";
+import { MediaUploaderContext, UploadMediaContext } from "../../Context";
 
 interface ShowMediaListProps {
-  mediaListRef: React.RefObject<HTMLDivElement>;
   mediaList: MediaItem[];
-  setPreviewMediaList: (list: MediaItem[]) => void;
-  type: MediaUploaderEnum;
-  onMediaLoad: () => void;
   mediaView: MediaView;
-  settingsConfigValue: SettingsConfigType;
 }
 
 interface MediaListProps {
@@ -28,15 +24,9 @@ const MediaListStyle = styled(Box)<MediaListProps>(({ theme, type }) => ({
   padding: "10px",
 }));
 
-const ShowMediaList = ({
-  mediaListRef,
-  mediaList,
-  setPreviewMediaList,
-  onMediaLoad,
-  type,
-  mediaView,
-  settingsConfigValue,
-}: ShowMediaListProps) => {
+const ShowMediaList = ({ mediaView, mediaList }: ShowMediaListProps) => {
+  const { setPreviewMediaList, mediaListRef, type } =
+    useContext(UploadMediaContext);
   const onMediaChange = (updatedMedia: MediaItem) => {
     const mediaIndex = mediaList
       .map((media) => media.id)
@@ -45,18 +35,21 @@ const ShowMediaList = ({
     mediaList[mediaIndex] = updatedMedia;
     setPreviewMediaList([...mediaList]);
   };
+
   return (
     <MediaListStyle ref={mediaListRef} type={type}>
       {mediaList.map((media) => (
-        <MediaUploader
+        <MediaUploaderContext.Provider
+          value={{ onMediaChange, media }}
           key={media.id}
-          media={media}
-          onMediaLoad={onMediaLoad}
-          type={type}
-          onMediaChange={onMediaChange}
-          mediaView={mediaView}
-          settingsConfigValue={settingsConfigValue}
-        />
+        >
+          <MediaUploader
+            key={media.id}
+            media={media}
+            type={type}
+            mediaView={mediaView}
+          />
+        </MediaUploaderContext.Provider>
       ))}
     </MediaListStyle>
   );

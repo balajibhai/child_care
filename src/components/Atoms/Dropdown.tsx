@@ -13,10 +13,10 @@ import {
 type DropdownProps = {
   label: string;
   paneType: PaneType;
-  onConfiguring: (value: ConfiguredValue) => void;
   prevValue: string; // To set the dropdown to its previous value on opening
   valueList: (string | number)[];
   attribute: keyof PaneConfig;
+  onConfiguringSettings: (value: ConfiguredValue) => void;
 };
 
 /**
@@ -30,13 +30,19 @@ const DropDownValues = (valueList: (string | number)[]) => {
 };
 
 const Dropdown = (props: DropdownProps) => {
-  const { label, paneType, onConfiguring, prevValue, valueList, attribute } =
-    props;
+  const {
+    label,
+    paneType,
+    prevValue,
+    valueList,
+    attribute,
+    onConfiguringSettings,
+  } = props;
   const [value, setValue] = React.useState(prevValue);
 
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
-    onConfiguring({
+    onConfiguringSettings({
       paneType,
       selectedValue: event.target.value,
       selectedAttribute: attribute,

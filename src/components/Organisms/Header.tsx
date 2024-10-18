@@ -4,7 +4,6 @@ import Text from "../Atoms/Text";
 import { useState } from "react";
 import DrawerComponent from "../Molecules/DrawerComponent";
 import SettingsPopup from "../Molecules/SettingsPopup";
-import { SettingsConfigType } from "../../types/ComponentTypes";
 
 /**
  * 1) When settings icon is clicked, the popup has to be opened
@@ -12,13 +11,7 @@ import { SettingsConfigType } from "../../types/ComponentTypes";
  *
  */
 
-type HeaderProps = {
-  settingsConfig: (paneConfig: SettingsConfigType) => void;
-  settingsConfigValue: SettingsConfigType;
-};
-
-const Header = (props: HeaderProps) => {
-  const { settingsConfig, settingsConfigValue } = props;
+const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -34,9 +27,8 @@ const Header = (props: HeaderProps) => {
     setIsPopupOpen(true);
   };
 
-  const onPopupSubmit = (paneConfig: SettingsConfigType) => {
+  const onPopupSubmit = () => {
     setIsPopupOpen(false);
-    settingsConfig(paneConfig);
   };
 
   return (
@@ -61,11 +53,7 @@ const Header = (props: HeaderProps) => {
         />
       </Toolbar>
       <DrawerComponent isOpen={isDrawerOpen} onClose={onDrawerClose} />
-      <SettingsPopup
-        isPopupOpen={isPopupOpen}
-        onPopupSubmit={onPopupSubmit}
-        settingsConfigValue={settingsConfigValue}
-      />
+      <SettingsPopup isPopupOpen={isPopupOpen} onPopupSubmit={onPopupSubmit} />
     </AppBar>
   );
 };

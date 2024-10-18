@@ -4,9 +4,9 @@ export type MediaType = {
   id?: string;
   src: string;
   alt: string;
-  onLoad: () => void;
   onClick: () => void;
   type: mediaType;
+  onLoad?: () => void;
 };
 export type ImageType = Omit<MediaType, "type"> & {};
 

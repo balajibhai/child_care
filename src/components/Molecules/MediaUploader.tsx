@@ -32,7 +32,7 @@ const UploadedMediaStyle = styled(Box)(({ theme }) => ({
 }));
 
 const MediaUploader = (props: MediaUploaderProps) => {
-  const { media, type, onMediaLoad, mediaView, settingsConfigValue } = props;
+  const { media, type, mediaView } = props;
   const [isMediaClicked, setMediaClicked] = useState(false);
 
   const onMediaClick = () => {
@@ -46,15 +46,11 @@ const MediaUploader = (props: MediaUploaderProps) => {
       </PreviewMediaStyle>
       <UploadedMediaStyle key={media.id}>
         {mediaView === MediaView.UPLOADED && (
-          <ShowUploaded
-            media={media}
-            onLoad={onMediaLoad}
-            onClick={onMediaClick}
-          />
+          <ShowUploaded media={media} onClick={onMediaClick} />
         )}
         {/* Show comment box if media is clicked or a comment exists (non-empty) */}
         {isMediaClicked && type === MediaUploaderEnum.UPLOAD && (
-          <CommentSection settingsConfigValue={settingsConfigValue} />
+          <CommentSection />
         )}
       </UploadedMediaStyle>
     </>

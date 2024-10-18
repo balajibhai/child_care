@@ -1,6 +1,6 @@
 import { VideoType } from "../../types/MediaTypes";
 
-const Video = ({ id, src, onLoadedData, onClick, controls }: VideoType) => {
+const Video = ({ id, src, onClick, controls, onLoadedData }: VideoType) => {
   return (
     <>
       <video
