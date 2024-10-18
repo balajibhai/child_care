@@ -39,7 +39,10 @@ const ShowMediaList = ({ mediaView, mediaList }: ShowMediaListProps) => {
   return (
     <MediaListStyle ref={mediaListRef} type={type}>
       {mediaList.map((media) => (
-        <MediaUploaderContext.Provider value={{ onMediaChange, media }}>
+        <MediaUploaderContext.Provider
+          value={{ onMediaChange, media }}
+          key={media.id}
+        >
           <MediaUploader
             key={media.id}
             media={media}

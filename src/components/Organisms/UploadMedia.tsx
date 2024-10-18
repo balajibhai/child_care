@@ -25,14 +25,20 @@ const UploadMedia = (props: UploadMediaProps) => {
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                  videoElement.play();
+                  if (videoElement.paused) {
+                    videoElement.play().catch((error) => {
+                      console.error("Error playing video:", error);
+                    });
+                  }
                 } else {
-                  videoElement.pause();
+                  if (!videoElement.paused) {
+                    videoElement.pause();
+                  }
                 }
               });
             },
             {
-              threshold: 0.75, // play if the video is upto a particular view of 70%
+              threshold: 0.75, // play if the video is at least 75% in view
             }
           );
           observer.observe(videoElement);
@@ -43,7 +49,6 @@ const UploadMedia = (props: UploadMediaProps) => {
 
     // Cleanup only on unmount
     return () => {
-      // Clean up observers on unmount
       if (mediaList.length === 0) {
         Object.values(observers.current).forEach((observer) =>
           observer.disconnect()

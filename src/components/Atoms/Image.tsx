@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { ImageType } from "../../types/MediaTypes";
-import { UploadMediaContext } from "../../Context";
 
 const Image = ({ src, alt, onClick, onLoad }: ImageType) => {
   return (

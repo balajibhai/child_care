@@ -35,7 +35,7 @@ const ShowUploaded = (props: ShowUploadedProps) => {
         ) : (
           <Video
             id={media.id}
-            src={media.id}
+            src={mediaUrl}
             onClick={onClick}
             controls={true}
             onLoadedData={onMediaLoad}
